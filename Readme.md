@@ -1,4 +1,4 @@
-# XenForo-AttachmentImprovements
+# AttachmentImprovements
 
 A collection of improvements to XF's attachment system.
 
