@@ -1,0 +1,1 @@
+If checked, attachments will send the X-Accel-Redirect header for serving by Nginx.

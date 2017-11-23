@@ -1,0 +1,1 @@
+Enable X-Accel-Redirect Header

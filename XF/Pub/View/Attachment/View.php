@@ -2,7 +2,7 @@
 
 namespace SV\AttachmentImprovements\XF\Pub\View\Attachment;
 
-use SV\AttachmentImprovements\Helper\Attachment as AttachmentHelper;
+use League\Flysystem\Adapter\Local;
 use XF\Db\Exception;
 use XF\Util\File;
 
@@ -10,6 +10,7 @@ class View extends XFCP_View
 {
 	public function renderRaw()
 	{
+		/** @var \XF\Entity\Attachment $attachment */
 		$attachment = $this->params['attachment'];
 
 		if (!headers_sent() && function_exists('header_remove'))
@@ -28,7 +29,7 @@ class View extends XFCP_View
 			'png' => 'image/png'
 		];
 
-		if (isset($imageTypes[$extension]) && ($attachment['width'] && $attachment['height']))
+		if (isset($imageTypes[$extension]) && ($attachment->Data->width && $attachment->Data->height))
 		{
 			$this->response->header('Content-type', $imageTypes[$extension], true);
 			$this->response->setDownloadFileName($attachment['filename'], true);
@@ -45,26 +46,30 @@ class View extends XFCP_View
 
 		$attachmentFile = $attachment->Data->getAbstractedDataPath();
 
-		// I really do not like XF2's abstracted file system. It's too complicated for add-ons :(
-		// TODO: Figure out how to get the internal data path of the file.
+		$dataAdapter = \XF::fs()->getAdapter('internal-data://');
+
+		if ($dataAdapter instanceof Local)
+		{
+			$pathPrefix = $dataAdapter->getPathPrefix();
+		}
+		else
+		{
+			return parent::renderRaw();
+		}
+
+		$attachmentPath = str_replace('internal-data://', $pathPrefix, $attachmentFile);
+		$attachmentPath = str_replace(\XF::getRootDirectory(), '', $attachmentPath);
 
 		$options = \XF::app()->options();
 		if ($options->SV_AttachImpro_XAR)
 		{
-			if (AttachmentHelper::convertFilename($attachmentFile))
-			{
-				if (\XF::$debugMode && $options->SV_AttachImpro_log)
-				{
-					\XF::app()->logException(new Exception('X-Accel-Redirect:' . $attachmentFile));
-				}
-				$this->response->header('X-Accel-Redirect', $attachmentFile);
-
-				return '';
-			}
 			if (\XF::$debugMode && $options->SV_AttachImpro_log)
 			{
-				\XF::app()->logException(new Exception('X-Accel-Redirect skipped'));
+				\XF::app()->logException(new Exception('X-Accel-Redirect:' . $attachmentPath));
 			}
+			$this->response->header('X-Accel-Redirect', $attachmentPath);
+
+			return '';
 		}
 
 		return parent::renderRaw();

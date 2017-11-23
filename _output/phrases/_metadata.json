@@ -1,0 +1,38 @@
+{
+    "option.SV_AttachImpro_XAR.txt": {
+        "global_cache": false,
+        "version_id": 2000070,
+        "version_string": "2.0.0",
+        "hash": "d7b8187272d048aff9d20596230e6980"
+    },
+    "option.SV_AttachImpro_log.txt": {
+        "global_cache": false,
+        "version_id": 2000070,
+        "version_string": "2.0.0",
+        "hash": "0b584a3e718b3cbdca681983efab82c7"
+    },
+    "option_explain.SV_AttachImpro_XAR.txt": {
+        "global_cache": false,
+        "version_id": 2000070,
+        "version_string": "2.0.0",
+        "hash": "4620ca3dca1a042974e6debf1d670e63"
+    },
+    "option_explain.SV_AttachImpro_log.txt": {
+        "global_cache": false,
+        "version_id": 2000070,
+        "version_string": "2.0.0",
+        "hash": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "option_group.SV_AttachImpro_Debug.txt": {
+        "global_cache": false,
+        "version_id": 2000070,
+        "version_string": "2.0.0",
+        "hash": "b730bb0139d3bfa1957fe26866ac65b0"
+    },
+    "option_group_description.SV_AttachImpro_Debug.txt": {
+        "global_cache": false,
+        "version_id": 2000070,
+        "version_string": "2.0.0",
+        "hash": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+}
