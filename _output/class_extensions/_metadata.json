@@ -1,4 +1,10 @@
 {
+    "XF-FileWrapper_SV-AttachmentImprovements-XF-FileWrapper.json": {
+        "hash": "6753262a02e0c61bee4eaf6c1cba7c46"
+    },
+    "XF-Http-Upload_SV-AttachmentImprovements-XF-Http-Upload.json": {
+        "hash": "1858ed1d62bcaca98111cca9dd14eed9"
+    },
     "XF-Pub-View-Attachment-View_SV-AttachmentImprovements-XF-Pub-View-Attachment-View.json": {
         "hash": "f752772be6d8df66c07cdbcc0302edde"
     }

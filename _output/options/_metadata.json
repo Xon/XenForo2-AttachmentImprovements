@@ -2,7 +2,13 @@
     "SV_AttachImpro_XAR.json": {
         "hash": "2a7a8fd4b87c971ccb93dbfcbd6f74bb"
     },
+    "SV_AttachImpro_badTags.json": {
+        "hash": "10d0fabdc87a7d78c528f9314a732c97"
+    },
     "SV_AttachImpro_log.json": {
         "hash": "1d31aec3b42a64d597b957c7e1324075"
+    },
+    "SV_AttachmentImprovements_badAttributes.json": {
+        "hash": "3fcc7dbd38aaf4730dfe42d2ea85c72a"
     }
 }
