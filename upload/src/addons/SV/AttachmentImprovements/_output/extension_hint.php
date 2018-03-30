@@ -17,3 +17,8 @@ namespace SV\AttachmentImprovements\XF\Pub\View\Attachment
 {
 	class XFCP_View extends \XF\Pub\View\Attachment\View {}
 }
+
+namespace SV\AttachmentImprovements\XF\Service\Attachment
+{
+    class XFCP_Preparer extends \XF\Service\Attachment\Preparer {}
+}
