@@ -175,12 +175,6 @@ class SvgImage
                 $this->thumbnailWidth = intval($thumbnailDimensions * $aspectRatio);
             }
         }
-
-        ob_start();
-
-        //print_r($this->getDimensions());
-
-        \XF::logError(ob_get_clean());
     }
 
     protected function extractDimension($name)

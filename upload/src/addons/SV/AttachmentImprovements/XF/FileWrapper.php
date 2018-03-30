@@ -58,8 +58,10 @@ class FileWrapper extends XFCP_FileWrapper
 
         if ($this->extension == 'svg')
         {
-            $this->svgImage = new SvgImage($this->filePath);
-            $this->isSvg = true;
+            $throwOnBadData = \XF::options()->SV_RejectAttachmentWithBadTags;
+            $class = \XF::extendClass('SV\AttachmentImprovements\SvgImage');
+            $this->svgImage = new $class($this->filePath, $throwOnBadData);
+            $this->isSvg = $this->svgImage->isValid();
         }
 
         if (!$this->isSvg)
