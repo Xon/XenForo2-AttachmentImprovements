@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: liam
- * Date: 23/11/2017
- * Time: 12:32 AM
+
+/*
+ * This file is part of a XenForo add-on.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace SV\AttachmentImprovements\XF;

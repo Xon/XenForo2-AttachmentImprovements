@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: liam
- * Date: 04/12/2017
- * Time: 11:55 PM
+
+/*
+ * This file is part of a XenForo add-on.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace SV\AttachmentImprovements;
@@ -52,7 +53,7 @@ class SvgImage
 
         if ($badAttributes == null)
         {
-            $badAttributes = array_fill_keys(explode(',', strtolower(\XF::options()->SV_AttachmentImprovements_badAttributes)), true);
+            $badAttributes = array_fill_keys(explode(',', strtolower(\XF::options()->SV_AttachImpro_badAttributes)), true);
         }
 
         $this->badTags = $badTags;
