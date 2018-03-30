@@ -1,0 +1,1 @@
+SVG can allows arbitrary scripting, this is a comma-delimited list of tags which should cause an SVG to fail to display.

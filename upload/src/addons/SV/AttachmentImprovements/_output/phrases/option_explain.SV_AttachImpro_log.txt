@@ -1,0 +1,1 @@
+Allows debugging of the attachment redirection URLs

@@ -1,0 +1,12 @@
+{
+    "edit_format": "textbox",
+    "edit_format_params": "rows=6",
+    "data_type": "boolean",
+    "sub_options": [],
+    "validation_class": "",
+    "validation_method": "",
+    "default_value": "png\njpg\njpeg\njpe\ngif",
+    "relations": {
+        "attachments": 25
+    }
+}

@@ -1,1 +1,21 @@
-If checked, attachments will send the X-Accel-Redirect header for serving by Nginx.
+Note; this requires explicit nginx support. <br/>
+<br/>
+For internal_data hosted in the webroot consider:<br/>
+<i><br/>
+location ^~ /internal_data {<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;internal;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;add_header Etag $upstream_http_etag;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;add_header X-Frame-Options SAMEORIGIN;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;add_header X-Content-Type-Options nosniff;<br/>
+}<br/>
+</i><br/><br/>
+For internal_data hosted outside the webroot consider:<br/>
+<i><br/>
+location ^~ /internal_data {<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;internal;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;add_header Etag $upstream_http_etag;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;add_header X-Frame-Options SAMEORIGIN;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;add_header X-Content-Type-Options nosniff;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;alias /path/to/internal_data;<br/>
+}<br/>
+</i>

@@ -5,8 +5,8 @@
     "sub_options": [],
     "validation_class": "",
     "validation_method": "",
-    "default_value": "",
+    "default_value": "1",
     "relations": {
-        "attachments": 1300
+        "attachments": 1210
     }
 }

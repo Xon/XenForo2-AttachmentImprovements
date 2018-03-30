@@ -1,12 +1,12 @@
 {
     "edit_format": "textbox",
-    "edit_format_params": "rows=5",
+    "edit_format_params": "rows=2",
     "data_type": "string",
     "sub_options": [],
     "validation_class": "",
     "validation_method": "",
-    "default_value": "",
+    "default_value": "foreignobject,script",
     "relations": {
-        "attachments": 500
+        "attachments": 1220
     }
 }

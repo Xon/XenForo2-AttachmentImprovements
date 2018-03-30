@@ -7,6 +7,6 @@
     "validation_method": "",
     "default_value": "",
     "relations": {
-        "SV_AttachImpro_Debug": 1
+        "SV_AttachImpro_Debug": 9000
     }
 }

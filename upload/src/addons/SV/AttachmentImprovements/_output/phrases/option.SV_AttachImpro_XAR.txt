@@ -1,1 +1,1 @@
-Enable X-Accel-Redirect Header
+Nginx X-Accel-Redirect Support

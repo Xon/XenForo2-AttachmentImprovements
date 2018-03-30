@@ -1,0 +1,4 @@
+Prevent attachments which fail SVG validation from being accepted.<br/>
+<br/>
+Rebuild Attachment Thumbnails to enforce a change in bad tags/attributes.<br/>
+<br/>
