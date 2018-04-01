@@ -18,4 +18,9 @@ class FileWrapperUnwrapper extends FileWrapper
         clearstatcache();
         $file->fileSize = filesize($file->getFilePath());
     }
+
+    public static function resetExifCache(\XF\FileWrapper $file)
+    {
+        $file->exif = null;
+    }
 }
