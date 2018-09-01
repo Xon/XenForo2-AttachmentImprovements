@@ -2,13 +2,20 @@
 
 namespace SV\AttachmentImprovements\XF\Attachment;
 
-class Post extends XFCP_Post
+class ConversationMessage extends XFCP_ConversationMessage
 {
     public function getConstraints(array $context)
     {
         $constraints = parent::getConstraints($context);
 
-        $visitor = \XF:visitor();
+        $constraints = $this->svUpdateConstraints($constraints);
+
+        return $constraints;
+    }
+
+    protected function svUpdateConstraints($constraints)
+    {
+        $visitor = \XF::visitor();
 
         $size = $visitor->hasPermission('conversation', 'attach_size');
         if ($size > 0 && $size < $constraints['size'])
