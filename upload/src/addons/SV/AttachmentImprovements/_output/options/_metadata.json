@@ -1,14 +1,26 @@
 {
     "SV_AttachImpro_XAR.json": {
-        "hash": "2a7a8fd4b87c971ccb93dbfcbd6f74bb"
+        "hash": "0e5f353f0545d302f897b479cee1e39d"
+    },
+    "SV_AttachImpro_badAttributes.json": {
+        "hash": "2067c97423177817a916c05fb46aee87"
     },
     "SV_AttachImpro_badTags.json": {
-        "hash": "10d0fabdc87a7d78c528f9314a732c97"
+        "hash": "2ce2f95cfb0e06f973eac23c9ca2d5f9"
     },
     "SV_AttachImpro_log.json": {
-        "hash": "1d31aec3b42a64d597b957c7e1324075"
+        "hash": "853729fa180d975bff0e2cad26389787"
     },
     "SV_AttachmentImprovements_badAttributes.json": {
         "hash": "3fcc7dbd38aaf4730dfe42d2ea85c72a"
+    },
+    "SV_RejectAttachmentWithBadTags.json": {
+        "hash": "bfa1713ee12fc4d4eeb91f1a1b4ca26a"
+    },
+    "attachmentImageExtensions.json": {
+        "hash": "65607b22f2f363dee470a2f8cfc59868"
+    },
+    "svAttachmentsStripExif.json": {
+        "hash": "a080ce0ddb1126d4beddbdb422a70930"
     }
 }
