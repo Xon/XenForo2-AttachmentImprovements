@@ -1,17 +1,8 @@
 <?php
 
-/*
- * This file is part of a XenForo add-on.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+namespace SV\AttachmentImprovements;
 
-namespace SV\AttachmentImprovements\XF;
-
-use SV\AttachmentImprovements\SvgImage;
-
-class FileWrapper extends XFCP_FileWrapper
+class SvgFileWrapper extends \XF\FileWrapper
 {
     protected $isSvg;
     /** @var SvgImage */
@@ -19,7 +10,7 @@ class FileWrapper extends XFCP_FileWrapper
 
     public function getImageType()
     {
-        if ($this->isSvg)
+        if ($this->isImage() && $this->isSvg)
         {
             return SvgImage::IMAGETYPE_SVG;
         }
@@ -27,11 +18,20 @@ class FileWrapper extends XFCP_FileWrapper
         return parent::getImageType();
     }
 
+    /**
+     * @return SvgImage
+     */
+    public function getImageData()
+    {
+        return $this->svgImage;
+    }
+
     public function getImageWidth()
     {
         if ($this->isImage() && $this->isSvg)
         {
-            return $this->svgImage->getDimensions()['width'];
+            $dimensions = $this->svgImage->getDimensions();
+            return isset($dimensions['width']) ? $dimensions['width'] : 0;
         }
 
         return parent::getImageWidth();
@@ -41,7 +41,8 @@ class FileWrapper extends XFCP_FileWrapper
     {
         if ($this->isImage() && $this->isSvg)
         {
-            return $this->svgImage->getDimensions()['height'];
+            $dimensions = $this->svgImage->getDimensions();
+            return isset($dimensions['height']) ? $dimensions['height'] : 0;
         }
 
         return parent::getImageHeight();

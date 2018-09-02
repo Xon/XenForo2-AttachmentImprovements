@@ -1,12 +1,5 @@
 <?php
 
-/*
- * This file is part of a XenForo add-on.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace SV\AttachmentImprovements;
 
 use XF\PrintableException;
@@ -21,16 +14,22 @@ class SvgImage
     /** @var \SimpleXMLElement */
     protected $svgData;
 
+    /** @var int|null */
     protected $width  = null;
+    /** @var int|null */
     protected $height = null;
 
+    /** @var int|null */
     protected $thumbnailWidth  = null;
+    /** @var int|null */
     protected $thumbnailHeight = null;
 
     protected $badTags;
     protected $badAttributes;
 
+    /** @var bool */
     protected $validImage;
+    /** @var bool */
     protected $throwOnBadData;
 
     /**
@@ -186,5 +185,59 @@ class SvgImage
         }
 
         return intval($dimension);
+    }
+
+    /**
+     * @return \SimpleXMLElement
+     */
+    public function getSvgData()
+    {
+        return $this->svgData;
+    }
+
+    /**
+     * @param \SimpleXMLElement $svgData
+     */
+    public function setSvgData($svgData)
+    {
+        $this->svgData = $svgData;
+    }
+
+    /**
+     * @param int $width
+     * @param int $height
+     */
+    public function resize($width, $height)
+    {
+        $this->width = intval($width);
+        $this->height = intval($height);
+
+        $this->svgData['width'] = strval($this->width);
+        $this->svgData['height'] = strval($this->height);
+    }
+
+    /**
+     * @param $filename
+     * @return bool
+     */
+    public function save($filename)
+    {
+        return $this->svgData->saveXML($filename) !== false;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getHeight()
+    {
+        return $this->height;
     }
 }

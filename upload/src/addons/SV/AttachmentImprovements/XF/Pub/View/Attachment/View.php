@@ -2,7 +2,7 @@
 
 namespace SV\AttachmentImprovements\XF\Pub\View\Attachment;
 
-use League\Flysystem\Adapter\Local;
+use SV\AttachmentImprovements\InternalPathUrlSupport;
 use SV\AttachmentImprovements\SvgResponse;
 use XF\Db\Exception;
 
@@ -24,13 +24,16 @@ class View extends XFCP_View
             $options= \XF::options();
 
             $attachmentFile = $attachment->Data->getAbstractedDataPath();
-            if ($this->convertFilenameToURL($attachmentFile))
+            if ($attachmentFile = InternalPathUrlSupport::convertAbstractFilenameToURL($attachmentFile))
             {
                 if (\XF::$debugMode && $options->SV_AttachImpro_log)
                 {
                     \XF::app()->logException(new Exception('X-Accel-Redirect:' . $attachmentFile));
                 }
-                $this->response->header('X-Accel-Redirect', $attachmentFile);
+                $this->response
+                    ->setAttachmentFileParams($attachment->filename, $attachment->extension)
+                    ->header('ETag', '"' . $attachment->attach_date . '"')
+                    ->header('X-Accel-Redirect', $attachmentFile);
 
                 return '';
             }
@@ -39,37 +42,4 @@ class View extends XFCP_View
         return parent::renderRaw();
     }
 
-    public function convertFilenameToURL(&$attachmentFile)
-    {
-        $xfCodeRoot = \XF::getRootDirectory();
-        $attachmentFile = str_replace('internal-data://', '', $attachmentFile);
-
-        $internalData = '';
-        $dataAdapter = \XF::fs()->getAdapter('internal-data://');
-        if ($dataAdapter instanceof Local)
-        {
-            $internalData = $dataAdapter->getPathPrefix();
-        }
-        $internalDataUrl = $this->getInternalDataUrl();
-
-        if ($internalData && $internalDataUrl && strpos($attachmentFile, $internalData) === 0)
-        {
-            $attachmentFile = str_replace($internalData, $internalDataUrl, $attachmentFile);
-            return true;
-        }
-        else if (strpos($attachmentFile, $xfCodeRoot) === 0)
-        {
-            $attachmentFile = str_replace($xfCodeRoot, '', $attachmentFile);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public function getInternalDataUrl()
-    {
-        return \XF::app()->config()->internalDataUrl;
-    }
 }
