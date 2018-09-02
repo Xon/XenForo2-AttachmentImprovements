@@ -3,6 +3,11 @@
 // ################## THIS IS A GENERATED FILE ##################
 // DO NOT EDIT DIRECTLY. EDIT THE CLASS EXTENSIONS IN THE CONTROL PANEL.
 
+namespace SV\AttachmentImprovements\XF\Admin\Controller
+{
+	class XFCP_Attachment extends \XF\Admin\Controller\Attachment {}
+}
+
 namespace SV\AttachmentImprovements\XF\Admin\View\Attachment
 {
 	class XFCP_View extends \XF\Admin\View\Attachment\View {}
@@ -27,6 +32,11 @@ namespace SV\AttachmentImprovements\XF
 namespace SV\AttachmentImprovements\XF\Http
 {
 	class XFCP_Upload extends \XF\Http\Upload {}
+}
+
+namespace SV\AttachmentImprovements\XF\Pub\Controller
+{
+	class XFCP_Attachment extends \XF\Pub\Controller\Attachment {}
 }
 
 namespace SV\AttachmentImprovements\XF\Pub\View\Attachment
