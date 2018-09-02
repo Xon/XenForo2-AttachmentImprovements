@@ -1,17 +1,10 @@
 <?php
 
-/*
- * This file is part of a XenForo add-on.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace SV\AttachmentImprovements\XF\Pub\View\Attachment;
 
 use League\Flysystem\Adapter\Local;
+use SV\AttachmentImprovements\SvgResponse;
 use XF\Db\Exception;
-use XF\Util\File;
 
 class View extends XFCP_View
 {
@@ -22,10 +15,14 @@ class View extends XFCP_View
             return parent::renderRaw();
         }
 
-        SvgResponse::updateInlineImageTypes($this->response, 'svg', 'image/svg+xml')
+        SvgResponse::updateInlineImageTypes($this->response, 'svg', 'image/svg+xml');
 
         if (\XF::app()->options()->SV_AttachImpro_XAR)
         {
+            /** @var \XF\Entity\Attachment $attachment */
+            $attachment = $this->params['attachment'];
+            $options= \XF::options();
+
             $attachmentFile = $attachment->Data->getAbstractedDataPath();
             if ($this->convertFilenameToURL($attachmentFile))
             {
@@ -46,9 +43,16 @@ class View extends XFCP_View
     {
         $xfCodeRoot = \XF::getRootDirectory();
         $attachmentFile = str_replace('internal-data://', '', $attachmentFile);
-        $internalData = XenForo_Helper_File::getInternalDataPath();
+
+        $internalData = '';
+        $dataAdapter = \XF::fs()->getAdapter('internal-data://');
+        if ($dataAdapter instanceof Local)
+        {
+            $internalData = $dataAdapter->getPathPrefix();
+        }
         $internalDataUrl = $this->getInternalDataUrl();
-        if ($internalDataUrl && strpos($attachmentFile, $internalData) === 0)
+
+        if ($internalData && $internalDataUrl && strpos($attachmentFile, $internalData) === 0)
         {
             $attachmentFile = str_replace($internalData, $internalDataUrl, $attachmentFile);
             return true;
