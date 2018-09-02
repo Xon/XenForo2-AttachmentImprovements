@@ -24,16 +24,6 @@ namespace SV\AttachmentImprovements\XF\Entity
 	class XFCP_AttachmentData extends \XF\Entity\AttachmentData {}
 }
 
-namespace SV\AttachmentImprovements\XF
-{
-	class XFCP_FileWrapper extends \XF\FileWrapper {}
-}
-
-namespace SV\AttachmentImprovements\XF\Http
-{
-	class XFCP_Upload extends \XF\Http\Upload {}
-}
-
 namespace SV\AttachmentImprovements\XF\Pub\Controller
 {
 	class XFCP_Attachment extends \XF\Pub\Controller\Attachment {}
