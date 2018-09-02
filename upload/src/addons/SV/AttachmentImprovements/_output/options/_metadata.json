@@ -11,9 +11,6 @@
     "SV_AttachImpro_log.json": {
         "hash": "853729fa180d975bff0e2cad26389787"
     },
-    "SV_AttachmentImprovements_badAttributes.json": {
-        "hash": "3fcc7dbd38aaf4730dfe42d2ea85c72a"
-    },
     "SV_RejectAttachmentWithBadTags.json": {
         "hash": "bfa1713ee12fc4d4eeb91f1a1b4ca26a"
     },

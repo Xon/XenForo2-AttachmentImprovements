@@ -23,12 +23,6 @@
         "version_string": "2.0.0",
         "hash": "0e0b06bf4d137632af9b6889ad318f98"
     },
-    "option.SV_AttachmentImprovements_badAttributes.txt": {
-        "global_cache": false,
-        "version_id": 2000070,
-        "version_string": "2.0.0",
-        "hash": "80c1983b99caf9e4c15785ea310510a3"
-    },
     "option.SV_RejectAttachmentWithBadTags.txt": {
         "global_cache": false,
         "version_id": 1010500,
@@ -64,12 +58,6 @@
         "version_id": 2000070,
         "version_string": "2.0.0",
         "hash": "d9aa90a1d84797c0da53be3daf71fe13"
-    },
-    "option_explain.SV_AttachmentImprovements_badAttributes.txt": {
-        "global_cache": false,
-        "version_id": 2000070,
-        "version_string": "2.0.0",
-        "hash": "d41d8cd98f00b204e9800998ecf8427e"
     },
     "option_explain.SV_RejectAttachmentWithBadTags.txt": {
         "global_cache": false,
