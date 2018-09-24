@@ -15,7 +15,7 @@ class AttachmentData extends XFCP_AttachmentData
      */
     public function getThumbnailUrl()
     {
-        if (!$this->thumbnail_width && $this->extension !== 'svg')
+        if (!$this->thumbnail_width || $this->extension !== 'svg')
         {
             return parent::getThumbnailUrl();
         }
