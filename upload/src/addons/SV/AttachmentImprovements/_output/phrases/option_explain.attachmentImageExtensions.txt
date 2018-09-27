@@ -1,0 +1,2 @@
+When attaching images, the list of file extensions allowed. Use spaces or line break between extensions.<br/>
+<b>Must</b> be a subset of the full list
