@@ -18,4 +18,42 @@ location ^~ /internal_data {<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;add_header X-Content-Type-Options nosniff;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;alias /path/to/internal_data;<br/>
 }<br/>
+</i><br/>
+For internal_data hosted in AWS/S3 bucket:<br/>
+<i><br/>
+location&nbsp;~*&nbsp;/internal_data/(.*?)://(.*?)/(.*)&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;internal;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;$xfEtag&nbsp;$upstream_http_etag;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;$download_protocol&nbsp;$1;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;$download_host&nbsp;$2;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;$download_path&nbsp;$3;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;$download_url&nbsp;$download_protocol://$download_host/$download_path;<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;resolver&nbsp;10.0.0.1&nbsp;ipv6=off;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header&nbsp;Host&nbsp;$download_host;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header&nbsp;Authorization&nbsp;'';<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header&nbsp;Cookie&nbsp;'';<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_max_temp_file_size&nbsp;0;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_intercept_errors&nbsp;on;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;error_page&nbsp;301&nbsp;302&nbsp;307&nbsp;=&nbsp;@handle_redirect;<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_pass&nbsp;$download_url$is_args$args;<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_hide_header&nbsp;Content-Disposition;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_hide_header&nbsp;Content-Type;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_hide_header&nbsp;Etag;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_hide_header&nbsp;x-amz-request-id;<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;add_header&nbsp;Etag&nbsp;$xfEtag;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;add_header&nbsp;X-Frame-Options&nbsp;SAMEORIGIN;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;add_header&nbsp;X-Content-Type-Options&nbsp;nosniff;<br/>
+}<br/>
+</i>
+<br/>
+Additionally, config.php requires a internalDataUrl stanza like any externalDataUrl;<br/>
+<br/>
+<i>$config['internalDataUrl'] = function($externalPath, $canonical)<br/>
+{<br/>
+   return 'internal_data/..../internal_data/' . $externalPath;<br/>
+};<br/>
 </i>
