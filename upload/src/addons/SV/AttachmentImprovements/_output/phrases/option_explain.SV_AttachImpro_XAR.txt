@@ -19,7 +19,7 @@ location ^~ /internal_data {<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;alias /path/to/internal_data;<br/>
 }<br/>
 </i><br/>
-For internal_data hosted in AWS/S3 bucket:<br/>
+For internal_data hosted on a AWS/S3 bucket (note, resolver must point to a valid DNS resolve)<br/>
 <i><br/>
 location&nbsp;~*&nbsp;/internal_data/(.*?)://(.*?)/(.*)&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;internal;<br/>
@@ -29,7 +29,7 @@ location&nbsp;~*&nbsp;/internal_data/(.*?)://(.*?)/(.*)&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;$download_path&nbsp;$3;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;$download_url&nbsp;$download_protocol://$download_host/$download_path;<br/>
 <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;resolver&nbsp;10.0.0.1&nbsp;ipv6=off;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;resolver&nbsp;127.0.0.1&nbsp;ipv6=off;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header&nbsp;Host&nbsp;$download_host;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header&nbsp;Authorization&nbsp;'';<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header&nbsp;Cookie&nbsp;'';<br/>
@@ -47,6 +47,12 @@ location&nbsp;~*&nbsp;/internal_data/(.*?)://(.*?)/(.*)&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;add_header&nbsp;Etag&nbsp;$xfEtag;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;add_header&nbsp;X-Frame-Options&nbsp;SAMEORIGIN;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;add_header&nbsp;X-Content-Type-Options&nbsp;nosniff;<br/>
+}<br/>
+<br/>
+location @handle_redirect {<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;resolver 127.0.0.1 ipv6=off;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;set $saved_redirect_location '$upstream_http_location';<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy_pass $saved_redirect_location;<br/>
 }<br/>
 </i>
 <br/>
