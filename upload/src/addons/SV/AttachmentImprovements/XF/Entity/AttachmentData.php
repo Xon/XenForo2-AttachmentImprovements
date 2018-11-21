@@ -11,13 +11,14 @@ use XF\Mvc\Entity\Structure;
 class AttachmentData extends XFCP_AttachmentData
 {
     /**
+     * @param bool $canonical
      * @return string|null
      */
-    public function getThumbnailUrl()
+    public function getThumbnailUrl($canonical = false)
     {
         if (!$this->thumbnail_width || $this->extension !== 'svg')
         {
-            return parent::getThumbnailUrl();
+            return parent::getThumbnailUrl($canonical);
         }
 
         $dataId = $this->data_id;
