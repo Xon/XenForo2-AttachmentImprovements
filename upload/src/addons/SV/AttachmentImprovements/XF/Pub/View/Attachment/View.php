@@ -4,7 +4,6 @@ namespace SV\AttachmentImprovements\XF\Pub\View\Attachment;
 
 use SV\AttachmentImprovements\InternalPathUrlSupport;
 use SV\AttachmentImprovements\SvgResponse;
-use XF\Db\Exception;
 
 class View extends XFCP_View
 {

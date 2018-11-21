@@ -11,7 +11,7 @@ class Preparer extends XFCP_Preparer
 {
     public $filename = '';
 
-    public function updateDataFromFile(\XF\Entity\AttachmentData $data, \XF\FileWrapper $file, array $extra = [])
+    public function updateDataFromFile(\XF\Entity\AttachmentData $data, FileWrapper $file, array $extra = [])
     {
         $this->filename = $file->getFileName();
 
