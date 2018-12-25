@@ -34,7 +34,7 @@ abstract class InternalPathUrlSupport
 
         $url = $pather($url, $canonical ? 'canonical' : 'nopath');
 
-        if (!(preg_match('#^(/|[a-z]+:)#i', $url))
+        if (!preg_match('#^(/|[a-z]+:)#i', $url))
         {
             $url = '/' . $url;
         }
