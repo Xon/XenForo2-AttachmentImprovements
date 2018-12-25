@@ -32,6 +32,13 @@ abstract class InternalPathUrlSupport
         /** @var \Closure $pather */
         $pather = $app->container('request.pather');
 
-        return $pather($url, ($canonical ? 'canonical' : 'base'));
+        $url = $pather($url, $canonical ? 'canonical' : 'nopath');
+
+        if (!(preg_match('#^(/|[a-z]+:)#i', $url))
+        {
+            $url = '/' . $url;
+        }
+
+        return $url;
     }
 }
