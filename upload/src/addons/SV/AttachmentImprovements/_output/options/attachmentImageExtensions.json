@@ -1,7 +1,7 @@
 {
     "edit_format": "textbox",
     "edit_format_params": "rows=6",
-    "data_type": "boolean",
+    "data_type": "string",
     "sub_options": [],
     "validation_class": "",
     "validation_method": "",
