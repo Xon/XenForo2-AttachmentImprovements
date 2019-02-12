@@ -12,23 +12,23 @@ class Post extends XFCP_Post
         $nodeId = null;
         $em = \XF::app()->em();
 
-        if (!empty($extraContext['node_id']))
+        if (!empty($context['node_id']))
         {
-            $nodeId = $extraContext['node_id'];
+            $nodeId = $context['node_id'];
         }
-        else if (!empty($extraContext['thread_id']))
+        else if (!empty($context['thread_id']))
         {
             /** @var \XF\Entity\Thread $thread */
-            $thread = $em->find('XF:Thread', $extraContext['thread_id']);
+            $thread = $em->find('XF:Thread', $context['thread_id']);
             if ($thread)
             {
                 $nodeId = $thread->node_id;
             }
         }
-        else if (!empty($extraContext['post_id']))
+        else if (!empty($context['post_id']))
         {
             /** @var \XF\Entity\Post $post */
-            $post = $em->find('XF:Post', $extraContext['post_id']);
+            $post = $em->find('XF:Post', $context['post_id']);
             if ($post)
             {
                 /** @var \XF\Entity\Thread $thread */
