@@ -1,6 +1,6 @@
 {
     "from_class": "XF\\Attachment\\ConversationMessage",
     "to_class": "SV\\AttachmentImprovements\\XF\\Attachment\\ConversationMessage",
-    "execute_order": 10,
+    "execute_order": 6629,
     "active": true
 }
