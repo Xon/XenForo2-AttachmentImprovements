@@ -50,12 +50,12 @@ class Preparer extends XFCP_Preparer
                 {
                     $image->transformByExif($orientation);
                 }
+                // xenforo strips the image of EXIF data by-default, in-case exif parsing fails but is present re-save anyway.
+                $image->save($tempFile, null, 100);
+                FileWrapperUnwrapper::refreshFileSize($file);
+                // wipe EXIF data for the final time
+                FileWrapperUnwrapper::resetExifCache($file);
             }
-            // xenforo strips the image of EXIF data by-default, in-case exif parsing fails but is present re-save anyway.
-            $image->save($tempFile, null, 100);
-            FileWrapperUnwrapper::refreshFileSize($file);
-            // wipe EXIF data for the final time
-            FileWrapperUnwrapper::resetExifCache($file);
         }
 
         return parent::insertDataFromFile($file, $userId, $extra);
