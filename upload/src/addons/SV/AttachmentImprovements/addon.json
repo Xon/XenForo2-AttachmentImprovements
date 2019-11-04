@@ -4,13 +4,16 @@
     "description": "A collection of improvements to XF's attachment system",
     "version_id": 2001000,
     "version_string": "2.0.10",
-    "dev" : "Xon",
+    "dev": "Xon",
     "dev_url": "https://atelieraphelion.com/",
     "faq_url": "",
     "support_url": "https://xenforo.com/community/resources/attachment-improvements-by-xon.6629/",
     "extra_urls": [],
-    "require" : {
-        "php": ["5.6.0", "PHP 5.6.0+"]
+    "require": {
+        "php": [
+            "5.6.0",
+            "PHP 5.6.0+"
+        ]
     },
     "icon": "fa-download"
 }

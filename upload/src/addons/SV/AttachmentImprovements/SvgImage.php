@@ -15,12 +15,12 @@ class SvgImage
     protected $svgData;
 
     /** @var int|null */
-    protected $width  = null;
+    protected $width = null;
     /** @var int|null */
     protected $height = null;
 
     /** @var int|null */
-    protected $thumbnailWidth  = null;
+    protected $thumbnailWidth = null;
     /** @var int|null */
     protected $thumbnailHeight = null;
 
@@ -77,7 +77,7 @@ class SvgImage
             'width'            => $this->width,
             'height'           => $this->height,
             'thumbnail_width'  => $this->thumbnailWidth,
-            'thumbnail_height' => $this->thumbnailHeight
+            'thumbnail_height' => $this->thumbnailHeight,
         ];
 
         return $dat;

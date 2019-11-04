@@ -31,6 +31,7 @@ class SvgFileWrapper extends \XF\FileWrapper
         if ($this->isImage() && $this->isSvg)
         {
             $dimensions = $this->svgImage->getDimensions();
+
             return isset($dimensions['width']) ? $dimensions['width'] : 0;
         }
 
@@ -42,6 +43,7 @@ class SvgFileWrapper extends \XF\FileWrapper
         if ($this->isImage() && $this->isSvg)
         {
             $dimensions = $this->svgImage->getDimensions();
+
             return isset($dimensions['height']) ? $dimensions['height'] : 0;
         }
 

@@ -26,6 +26,7 @@ class AttachmentData extends XFCP_AttachmentData
             $dataId,
             $this->file_hash
         );
+
         return $this->app()->applyExternalDataUrl($path);
     }
 }

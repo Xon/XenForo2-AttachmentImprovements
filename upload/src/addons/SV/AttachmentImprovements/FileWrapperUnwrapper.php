@@ -12,7 +12,7 @@ class FileWrapperUnwrapper extends FileWrapper
         $file->fileSize = filesize($file->getFilePath());
     }
 
-    public static function resetExifCache(\XF\FileWrapper $file)
+    public static function resetExifCache(FileWrapper $file)
     {
         $file->exif = null;
     }
