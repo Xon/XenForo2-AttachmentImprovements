@@ -46,6 +46,11 @@ class Preparer extends XFCP_Preparer
 
                 $tempFile = $file->getFilePath();
                 $image = \XF::app()->imageManager()->imageFromFile($tempFile);
+                if (!$image)
+                {
+                    // not actually a valid JPEG image
+                    return parent::insertDataFromFile($file, $userId, $extra);
+                }
                 if ($transformRequired)
                 {
                     $image->transformByExif($orientation);
