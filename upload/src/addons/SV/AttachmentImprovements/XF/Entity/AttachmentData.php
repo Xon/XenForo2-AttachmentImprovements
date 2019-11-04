@@ -29,4 +29,19 @@ class AttachmentData extends XFCP_AttachmentData
 
         return $this->app()->applyExternalDataUrl($path);
     }
+
+    protected function _getAbstractedThumbnailPath($dataId, $fileHash)
+    {
+        if ($this->extension !== 'svg')
+        {
+            /** @noinspection PhpMethodParametersCountMismatchInspection */
+            return parent::_getAbstractedThumbnailPath($dataId, $fileHash);
+        }
+
+        return sprintf('data://attachments/%d/%d-%s.svg',
+            floor($dataId / 1000),
+            $dataId,
+            $fileHash
+        );
+    }
 }
