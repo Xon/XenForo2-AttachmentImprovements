@@ -16,6 +16,19 @@ class Attachment extends XFCP_Attachment
             RequestUnwrapper::syncServerVar($this->request, 'HTTP_IF_NONE_MATCH');
         }
 
-        return parent::actionIndex($params);
+        $response = parent::actionIndex($params);
+
+        $method = $this->request->getRequestMethod();
+        if ($method === 'head' || $method === 'get')
+        {
+            $response->setParam('rangeSupport', true);
+            $rangeRequest = $this->request->getServer('HTTP_RANGE');
+            if ($rangeRequest !== false)
+            {
+                $response->setParam('rangeRequest', $rangeRequest);
+            }
+        }
+
+        return $response;
     }
 }

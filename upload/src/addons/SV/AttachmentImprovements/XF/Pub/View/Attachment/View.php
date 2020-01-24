@@ -3,7 +3,9 @@
 namespace SV\AttachmentImprovements\XF\Pub\View\Attachment;
 
 use SV\AttachmentImprovements\InternalPathUrlSupport;
+use SV\AttachmentImprovements\PartialResponseStream;
 use SV\AttachmentImprovements\SvgResponse;
+use SV\AttachmentImprovements\ResponseMultiPart;
 
 class View extends XFCP_View
 {
@@ -15,6 +17,7 @@ class View extends XFCP_View
         }
 
         SvgResponse::updateInlineImageTypes($this->response, 'svg', 'image/svg+xml');
+
 
         $options = \XF::options();
         if ($options->SV_AttachImpro_XAR)
@@ -37,7 +40,89 @@ class View extends XFCP_View
                 return '';
             }
         }
+        else
+        {
+            if (isset($this->params['rangeSupport']))
+            {
+                $this->response->header('Accept-Ranges','bytes');
+
+                $rangeRequest = isset($this->params['rangeRequest']) ? \strtolower($this->params['rangeRequest']) : null;
+                if ($rangeRequest !== null)
+                {
+                    /** @var \XF\Entity\Attachment $attachment */
+                    $attachment = $this->params['attachment'];
+                    if (!\preg_match('/^bytes\s*=\s*(\d+\s*-\s*(?:\d+|))\s*(?:\s*,\s*(\d+\s*-\s*\d+)\s*)*\s*$/', $rangeRequest, $matches))
+                    {
+                        $this->response
+                            ->httpCode('416')
+                            ->header('Content-Range','bytes */' . $attachment->file_size) // Required in 416.
+                        ;
+                        return '';
+                    }
+                    unset($matches[0]);
+                    $ranges = [];
+
+                    $fileSize = $attachment->file_size - 1;
+                    foreach ($matches as $range)
+                    {
+                        $start = $end = 0;
+                        $parts = explode('-', $range);
+                        if (count($parts) === 2)
+                        {
+                            $parts[0] = trim($parts[0]);
+                            $parts[1] = trim($parts[1]);
+                            $start = (int)$parts[0];
+                            $end = $parts[1] === '' ? $fileSize: (int)$parts[1];
+                            if ($start < 0 || $end > $fileSize)
+                            {
+                                $start = 0;
+                                $end = 0;
+                            }
+                        }
+
+                        if ($start > $end || !$start && !$end)
+                        {
+                            $this->response
+                                ->httpCode('416')
+                                ->header('Content-Range', 'bytes */' . $attachment->file_size) // Required in 416.
+                            ;
+
+                            return '';
+                        }
+
+                        $ranges[] = [$start, $end];
+                    }
+
+                    $this->response
+                        ->setAttachmentFileParams($attachment->filename, $attachment->extension)
+                        ->header('ETag', '"' . $attachment->attach_date . '"')
+                        ->httpCode(206)
+                    ;
+                    $internalContentType = $this->response->contentType();
+                    $boundary = '';
+                    if (count($ranges) > 1)
+                    {
+                        $boundary = md5('attachment' . $attachment->attach_date . \XF::$time);
+                        ResponseMultiPart::contentTypeForced($this->response, 'multipart/byteranges; boundary='. $boundary, '');
+                    }
+
+                    $resource = \XF::fs()->readStream($attachment->Data->getAbstractedDataPath());
+                    return $this->responseStream($resource, $internalContentType, $boundary, $ranges);
+                }
+            }
+        }
 
         return parent::renderRaw();
+    }
+
+    /**
+     * @param resource $resource
+     * @param string   $internalContentType
+     * @param array    $ranges
+     * @return PartialResponseStream
+     */
+    public function responseStream($resource, $internalContentType, $boundary, array $ranges)
+    {
+        return new PartialResponseStream($resource, $internalContentType, $boundary, $ranges);
     }
 }
