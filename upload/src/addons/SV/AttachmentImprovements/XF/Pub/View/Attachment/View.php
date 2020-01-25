@@ -50,7 +50,8 @@ class View extends XFCP_View
                 $rangeRequest = isset($this->params['rangeRequest']) ? \strtolower($this->params['rangeRequest']) : null;
                 if ($rangeRequest !== null)
                 {
-                    $chunkSize = \XF::options()->svPartialContentChunkSize * 1024;
+                    $options = \XF::options();
+                    $chunkSize = isset($options->svPartialContentChunkSize) ?  $options->svPartialContentChunkSize * 1024 : 0;
                     /** @var \XF\Entity\Attachment $attachment */
                     $attachment = $this->params['attachment'];
                     if (!\preg_match('/^bytes\s*=\s*(\d+\s*-\s*(?:\d+|))\s*(?:\s*,\s*(\d+\s*-\s*\d+)\s*)*\s*$/', $rangeRequest, $matches))
