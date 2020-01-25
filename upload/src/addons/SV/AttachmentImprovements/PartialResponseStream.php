@@ -9,7 +9,7 @@ class PartialResponseStream extends ResponseStream
     /**
      * @var array
      */
-    protected $ranges;
+    protected $ranges = [];
 
     /** @var string */
     protected $internalContentType;
@@ -47,7 +47,7 @@ class PartialResponseStream extends ResponseStream
         $multiPart = count($this->ranges) > 1;
         foreach ($this->ranges as $range)
         {
-            $length = $range[1] - $range[0];
+            $length = $range[1] - $range[0] + 1;
 
             if (\fseek($this->resource, $range[0]) === -1)
             {
