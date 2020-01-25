@@ -50,6 +50,7 @@ class View extends XFCP_View
                 $rangeRequest = isset($this->params['rangeRequest']) ? \strtolower($this->params['rangeRequest']) : null;
                 if ($rangeRequest !== null)
                 {
+                    $chunkSize = \XF::options()->svPartialContentChunkSize * 1024;
                     /** @var \XF\Entity\Attachment $attachment */
                     $attachment = $this->params['attachment'];
                     if (!\preg_match('/^bytes\s*=\s*(\d+\s*-\s*(?:\d+|))\s*(?:\s*,\s*(\d+\s*-\s*\d+)\s*)*\s*$/', $rangeRequest, $matches))
@@ -91,13 +92,18 @@ class View extends XFCP_View
                             return '';
                         }
 
+                        // cap at chunk size
+                        if ($chunkSize && ($end - $start) + 1 > $chunkSize)
+                        {
+                            $end = $start + $chunkSize;
+                        }
+
                         $ranges[] = [$start, $end];
                     }
 
                     $this->response
                         ->setAttachmentFileParams($attachment->filename, $attachment->extension)
                         ->header('ETag', '"' . $attachment->attach_date . '"')
-                        ->header('Content-Length', $attachment->file_size)
                         ->httpCode(206)
                     ;
                     $internalContentType = $this->response->contentType();

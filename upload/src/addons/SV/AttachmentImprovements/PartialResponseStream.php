@@ -37,8 +37,8 @@ class PartialResponseStream extends ResponseStream
 
     public function getLength()
     {
-        // content-length is set in the view, as it needs to be the total size...
-        return null;
+        $content = $this->getContents();
+        return \strlen($content);
     }
 
     protected function readChunks($returnBuffer = false)
