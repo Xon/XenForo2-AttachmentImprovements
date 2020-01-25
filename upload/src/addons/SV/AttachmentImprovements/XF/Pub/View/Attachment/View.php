@@ -97,6 +97,7 @@ class View extends XFCP_View
                     $this->response
                         ->setAttachmentFileParams($attachment->filename, $attachment->extension)
                         ->header('ETag', '"' . $attachment->attach_date . '"')
+                        ->header('Content-Length', $attachment->file_size)
                         ->httpCode(206)
                     ;
                     $internalContentType = $this->response->contentType();
@@ -105,6 +106,13 @@ class View extends XFCP_View
                     {
                         $boundary = md5('attachment' . $attachment->attach_date . \XF::$time);
                         ResponseMultiPart::contentTypeForced($this->response, 'multipart/byteranges; boundary='. $boundary, '');
+                    }
+                    else
+                    {
+                        $range = $ranges[0];
+                        $this->response
+                            ->header('Content-Range', "bytes {$range[0]}-{$range[1]}/{$attachment->file_size}")
+                        ;
                     }
 
                     $resource = \XF::fs()->readStream($attachment->Data->getAbstractedDataPath());
