@@ -26,7 +26,8 @@ class View extends XFCP_View
             $attachment = $this->params['attachment'];
 
             $attachmentFile = $attachment->Data->getAbstractedDataPath();
-            if ($attachmentFile = InternalPathUrlSupport::convertAbstractFilenameToURL($attachmentFile))
+            $attachmentFile = InternalPathUrlSupport::convertAbstractFilenameToURL($attachmentFile);
+            if ($attachmentFile)
             {
                 if (\XF::$debugMode && $options->SV_AttachImpro_log)
                 {

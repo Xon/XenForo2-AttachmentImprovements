@@ -7,9 +7,16 @@ abstract class InternalPathUrlSupport
 
     public static function convertAbstractFilenameToURL($attachmentFile, $canonical = false)
     {
-        $attachmentFile = str_replace('internal-data://', '', $attachmentFile);
-
-        return self::applyInternalDataUrl($attachmentFile, $canonical);
+        list($prefix, $path) = explode('://', $attachmentFile, 2);
+        if ($prefix === 'internal-data')
+        {
+            return self::applyInternalDataUrl($path, $canonical);
+        }
+        else if ($prefix === 'data')
+        {
+            return \XF::app()->applyExternalDataUrl($path);
+        }
+        return null;
     }
 
     public static function applyInternalDataUrl($internalPath, $canonical = false)
