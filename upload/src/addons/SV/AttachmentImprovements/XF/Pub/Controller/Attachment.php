@@ -4,6 +4,7 @@ namespace SV\AttachmentImprovements\XF\Pub\Controller;
 
 use SV\AttachmentImprovements\RequestUnwrapper;
 use XF\Mvc\ParameterBag;
+use XF\Mvc\Reply\View;
 
 class Attachment extends XFCP_Attachment
 {
@@ -17,15 +18,17 @@ class Attachment extends XFCP_Attachment
         }
 
         $response = parent::actionIndex($params);
-
-        $method = $this->request->getRequestMethod();
-        if ($method === 'head' || $method === 'get')
+        if ($response instanceof View)
         {
-            $response->setParam('rangeSupport', true);
-            $rangeRequest = $this->request->getServer('HTTP_RANGE');
-            if ($rangeRequest !== false)
+            $method = $this->request->getRequestMethod();
+            if ($method === 'head' || $method === 'get')
             {
-                $response->setParam('rangeRequest', $rangeRequest);
+                $response->setParam('rangeSupport', true);
+                $rangeRequest = $this->request->getServer('HTTP_RANGE');
+                if ($rangeRequest !== false)
+                {
+                    $response->setParam('rangeRequest', $rangeRequest);
+                }
             }
         }
 
