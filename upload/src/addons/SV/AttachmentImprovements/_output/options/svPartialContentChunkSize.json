@@ -1,0 +1,12 @@
+{
+    "edit_format": "spinbox",
+    "edit_format_params": "min=0\nstep=1024\nunits={{ phrase('units_kb') }}",
+    "data_type": "integer",
+    "sub_options": [],
+    "validation_class": "",
+    "validation_method": "",
+    "default_value": "1024",
+    "relations": {
+        "attachments": 1440
+    }
+}
