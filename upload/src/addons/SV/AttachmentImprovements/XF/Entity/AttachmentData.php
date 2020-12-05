@@ -29,6 +29,12 @@ class AttachmentData extends XFCP_AttachmentData
         return $this->app()->applyExternalDataUrl($path);
     }
 
+    /**
+     * @param string $dataId
+     * @param string $fileHash
+     * @return string
+     * @noinspection PhpMissingParamTypeInspection
+     */
     protected function _getAbstractedThumbnailPath($dataId, $fileHash)
     {
         if ($this->extension !== 'svg')
