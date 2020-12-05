@@ -4,11 +4,12 @@ namespace SV\AttachmentImprovements;
 
 class SvgFileWrapper extends \XF\FileWrapper
 {
-    protected $isSvg;
+    /** @var bool */
+    protected $isSvg = false;
     /** @var SvgImage */
     protected $svgImage = null;
 
-    public function getImageType()
+    public function getImageType(): string
     {
         if ($this->isImage() && $this->isSvg)
         {
@@ -18,15 +19,12 @@ class SvgFileWrapper extends \XF\FileWrapper
         return parent::getImageType();
     }
 
-    /**
-     * @return SvgImage
-     */
-    public function getImageData()
+    public function getImageData(): SvgImage
     {
         return $this->svgImage;
     }
 
-    public function getImageWidth()
+    public function getImageWidth(): int
     {
         if ($this->isImage() && $this->isSvg)
         {
@@ -38,7 +36,7 @@ class SvgFileWrapper extends \XF\FileWrapper
         return parent::getImageWidth();
     }
 
-    public function getImageHeight()
+    public function getImageHeight(): int
     {
         if ($this->isImage() && $this->isSvg)
         {

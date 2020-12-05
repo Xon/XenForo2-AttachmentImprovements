@@ -18,6 +18,14 @@ class Preparer extends XFCP_Preparer
         return parent::updateDataFromFile($data, $file, $extra);
     }
 
+    /**
+     * @param FileWrapper $file
+     * @param int         $userId
+     * @param array       $extra
+     * @return \XF\Entity\AttachmentData
+     * @throws \XF\PrintableException
+     * @noinspection PhpMissingParamTypeInspection
+     */
     public function insertDataFromFile(FileWrapper $file, $userId, array $extra = [])
     {
         $this->filename = $file->getFileName();
@@ -71,6 +79,7 @@ class Preparer extends XFCP_Preparer
      * @param int|null $width
      * @param int|null $height
      * @return null|string
+     * @noinspection PhpMissingParamTypeInspection
      */
     public function generateAttachmentThumbnail($sourceFile, &$width = null, &$height = null)
     {
@@ -94,7 +103,7 @@ class Preparer extends XFCP_Preparer
             }
 
             $dimensions = $image->getDimensions();
-            if ($dimensions === null)
+            if (empty($dimensions['thumbnail_width']) || empty($dimensions['thumbnail_height']))
             {
                 return null;
             }

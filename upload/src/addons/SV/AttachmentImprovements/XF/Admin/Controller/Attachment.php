@@ -7,6 +7,10 @@ use XF\Mvc\ParameterBag;
 
 class Attachment extends XFCP_Attachment
 {
+    /**
+     * @param ParameterBag $params
+     * @return \XF\Mvc\Reply\AbstractReply
+     */
     public function actionIndex(ParameterBag $params)
     {
         $eTag = $this->request->getServer('HTTP_IF_NONE_MATCH');

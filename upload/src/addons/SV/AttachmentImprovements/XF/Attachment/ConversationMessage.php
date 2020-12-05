@@ -13,7 +13,7 @@ class ConversationMessage extends XFCP_ConversationMessage
         return $constraints;
     }
 
-    protected function svUpdateConstraints($constraints)
+    protected function svUpdateConstraints(array $constraints): array
     {
         $visitor = \XF::visitor();
 

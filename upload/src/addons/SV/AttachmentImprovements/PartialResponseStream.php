@@ -13,10 +13,10 @@ class PartialResponseStream extends ResponseStream
 
     /** @var string */
     protected $internalContentType;
-    /** @var string|null */
+    /** @var string */
     protected $boundary;
 
-    public function __construct($resource, $internalContentType, $boundary, array $ranges)
+    public function __construct($resource, string $internalContentType, string $boundary, array $ranges)
     {
         if (!$ranges)
         {
@@ -35,13 +35,17 @@ class PartialResponseStream extends ResponseStream
         parent::__construct($resource, $length);
     }
 
-    public function getLength()
+    public function getLength(): int
     {
         $content = $this->getContents();
         return \strlen($content);
     }
 
-    protected function readChunks($returnBuffer = false)
+    /**
+     * @param bool $returnBuffer
+     * @return string|null
+     */
+    protected function readChunks(bool $returnBuffer = false)
     {
         $output = '';
 
@@ -96,7 +100,7 @@ class PartialResponseStream extends ResponseStream
         }
     }
 
-    public function getContents()
+    public function getContents(): string
     {
         if ($this->contents === null)
         {

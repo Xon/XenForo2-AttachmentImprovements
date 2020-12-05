@@ -15,7 +15,6 @@ class AttachmentData extends XFCP_AttachmentData
     {
         if (!$this->thumbnail_width || $this->extension !== 'svg')
         {
-            /** @noinspection PhpMethodParametersCountMismatchInspection */
             return parent::getThumbnailUrl($canonical);
         }
 
@@ -34,7 +33,6 @@ class AttachmentData extends XFCP_AttachmentData
     {
         if ($this->extension !== 'svg')
         {
-            /** @noinspection PhpMethodParametersCountMismatchInspection */
             return parent::_getAbstractedThumbnailPath($dataId, $fileHash);
         }
 

@@ -16,7 +16,7 @@ class ResponseMultiPart extends Response
      * @param string   $contentType
      * @param string   $charset
      */
-    public static function contentTypeForced(Response $response, $contentType, $charset)
+    public static function contentTypeForced(Response $response, string $contentType, string $charset = null)
     {
         $response->contentType = $contentType;
         if ($charset !== null)

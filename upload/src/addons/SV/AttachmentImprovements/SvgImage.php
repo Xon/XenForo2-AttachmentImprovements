@@ -24,33 +24,27 @@ class SvgImage
     /** @var int|null */
     protected $thumbnailHeight = null;
 
-    protected $badTags;
-    protected $badAttributes;
+    /** @var array */
+    protected $badTags = [];
+    /** @var array */
+    protected $badAttributes = [];
 
     /** @var bool */
     protected $validImage;
     /** @var bool */
     protected $throwOnBadData;
 
-    /**
-     * SvgImage constructor.
-     *
-     * @param       $svgPath
-     * @param bool  $throwOnBadData
-     * @param array $badTags
-     * @param array $badAttributes
-     */
-    public function __construct($svgPath, $throwOnBadData = true, array $badTags = null, array $badAttributes = null)
+    public function __construct(string $svgPath, bool $throwOnBadData = true, array $badTags = null, array $badAttributes = null)
     {
         $this->svgPath = $svgPath;
         $this->throwOnBadData = $throwOnBadData;
 
-        if ($badTags == null)
+        if ($badTags === null)
         {
             $badTags = array_fill_keys(explode(',', strtolower(\XF::options()->SV_AttachImpro_badTags)), true);
         }
 
-        if ($badAttributes == null)
+        if ($badAttributes === null)
         {
             $badAttributes = array_fill_keys(explode(',', strtolower(\XF::options()->SV_AttachImpro_badAttributes)), true);
         }
@@ -61,7 +55,7 @@ class SvgImage
         $this->parse();
     }
 
-    public function getDimensions()
+    public function getDimensions(): array
     {
         if (!$this->validImage)
         {
@@ -70,20 +64,18 @@ class SvgImage
                 throw new PrintableException(\XF::phrase('sv_bad_svg_data'));
             }
 
-            return null;
+            return [];
         }
 
-        $dat = [
-            'width'            => $this->width,
-            'height'           => $this->height,
-            'thumbnail_width'  => $this->thumbnailWidth,
-            'thumbnail_height' => $this->thumbnailHeight,
+        return [
+            'width'            => (int)$this->width,
+            'height'           => (int)$this->height,
+            'thumbnail_width'  => (int)$this->thumbnailWidth,
+            'thumbnail_height' => (int)$this->thumbnailHeight,
         ];
-
-        return $dat;
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
         return $this->validImage;
     }
@@ -116,7 +108,7 @@ class SvgImage
         $this->parseDimensions();
     }
 
-    protected function scanXml(\SimpleXMLElement $node)
+    protected function scanXml(\SimpleXMLElement $node): bool
     {
         foreach ($node->attributes() AS $key => $val)
         {
@@ -176,7 +168,7 @@ class SvgImage
         }
     }
 
-    protected function extractDimension($name)
+    protected function extractDimension(string $name): int
     {
         $dimension = (string)$this->svgData[$name];
         if (strrpos($dimension, 'px') === strlen($dimension) - 2)
@@ -187,40 +179,26 @@ class SvgImage
         return intval($dimension);
     }
 
-    /**
-     * @return \SimpleXMLElement
-     */
-    public function getSvgData()
+    public function getSvgData(): \SimpleXMLElement
     {
         return $this->svgData;
     }
 
-    /**
-     * @param \SimpleXMLElement $svgData
-     */
-    public function setSvgData($svgData)
+    public function setSvgData(\SimpleXMLElement $svgData)
     {
         $this->svgData = $svgData;
     }
 
-    /**
-     * @param int $width
-     * @param int $height
-     */
-    public function resize($width, $height)
+    public function resize(int $width, int $height)
     {
-        $this->width = intval($width);
-        $this->height = intval($height);
+        $this->width = $width;
+        $this->height = $height;
 
         $this->svgData['width'] = strval($this->width);
         $this->svgData['height'] = strval($this->height);
     }
 
-    /**
-     * @param $filename
-     * @return bool
-     */
-    public function save($filename)
+    public function save(string $filename): bool
     {
         return $this->svgData->saveXML($filename) !== false;
     }

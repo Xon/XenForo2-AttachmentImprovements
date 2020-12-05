@@ -5,7 +5,7 @@ namespace SV\AttachmentImprovements;
 abstract class InternalPathUrlSupport
 {
 
-    public static function convertAbstractFilenameToURL($attachmentFile, $canonical = false)
+    public static function convertAbstractFilenameToURL(string $attachmentFile, bool $canonical = false)
     {
         list($prefix, $path) = explode('://', $attachmentFile, 2);
         if ($prefix === 'internal-data')
@@ -19,7 +19,7 @@ abstract class InternalPathUrlSupport
         return null;
     }
 
-    public static function applyInternalDataUrl($internalPath, $canonical = false)
+    public static function applyInternalDataUrl(string $internalPath, bool $canonical = false)
     {
         $app = \XF::app();
         $internalDataUrl = $app->config('internalDataUrl');

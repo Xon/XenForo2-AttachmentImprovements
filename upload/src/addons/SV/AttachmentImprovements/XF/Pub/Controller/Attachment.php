@@ -8,6 +8,11 @@ use XF\Mvc\Reply\View;
 
 class Attachment extends XFCP_Attachment
 {
+    /**
+     * @param ParameterBag $params
+     * @return \XF\Mvc\Reply\AbstractReply
+     * @throws \XF\Mvc\Reply\Exception
+     */
     public function actionIndex(ParameterBag $params)
     {
         $eTag = $this->request->getServer('HTTP_IF_NONE_MATCH');

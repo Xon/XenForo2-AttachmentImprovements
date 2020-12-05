@@ -6,6 +6,7 @@ use SV\AttachmentImprovements\InternalPathUrlSupport;
 use SV\AttachmentImprovements\PartialResponseStream;
 use SV\AttachmentImprovements\SvgResponse;
 use SV\AttachmentImprovements\ResponseMultiPart;
+use XF\Http\ResponseStream;
 
 class View extends XFCP_View
 {
@@ -50,7 +51,6 @@ class View extends XFCP_View
                 $rangeRequest = isset($this->params['rangeRequest']) ? \strtolower($this->params['rangeRequest']) : null;
                 if ($rangeRequest !== null)
                 {
-                    $options = \XF::options();
                     $chunkSize = isset($options->svPartialContentChunkSize) ?  $options->svPartialContentChunkSize * 1024 : 0;
                     /** @var \XF\Entity\Attachment $attachment */
                     $attachment = $this->params['attachment'];
@@ -132,12 +132,13 @@ class View extends XFCP_View
     }
 
     /**
-     * @param resource $resource
+     * @param Resource $resource
      * @param string   $internalContentType
+     * @param string   $boundary
      * @param array    $ranges
      * @return PartialResponseStream
      */
-    public function responseStream($resource, $internalContentType, $boundary, array $ranges)
+    public function responseStream($resource, string $internalContentType, string $boundary, array $ranges): ResponseStream
     {
         return new PartialResponseStream($resource, $internalContentType, $boundary, $ranges);
     }
