@@ -95,9 +95,13 @@ location @handle_redirect {
 Additionally, config.php requires a internalDataUrl stanza like any externalDataUrl;
 
 ```php
+$config['internalDataUrl'] = '/internal_data';
+```
+or
+```php
 $config['internalDataUrl'] = function($externalPath, $canonical)
 {
-    return 'internal_data/..../internal_data/' . $externalPath;
+    return 'http://example.com/internal_data/' . $externalPath;
 };
 ```
 
