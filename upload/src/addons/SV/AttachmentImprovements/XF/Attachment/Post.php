@@ -55,7 +55,7 @@ class Post extends XFCP_Post
      * @return array
      * @noinspection PhpUnusedParameterInspection
      */
-    protected function svUpdateConstraints(array $constraints, int $nodeId, \XF\Entity\Thread $thread = null): array
+    protected function svUpdateConstraints(array $constraints, int $nodeId, \XF\Entity\Thread $thread = null)
     {
         $visitor = \XF::visitor();
 
