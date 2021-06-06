@@ -5,6 +5,7 @@
     "sub_options": [],
     "validation_class": "",
     "validation_method": "",
+    "advanced": false,
     "default_value": "png\njpg\njpeg\njpe\ngif",
     "relations": {
         "attachments": 25
