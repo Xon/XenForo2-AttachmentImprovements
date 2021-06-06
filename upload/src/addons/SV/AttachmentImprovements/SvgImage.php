@@ -112,7 +112,7 @@ class SvgImage
     {
         foreach ($node->attributes() AS $key => $val)
         {
-            if (isset($this->badAttributes[strtolower($key)]))
+            if (isset($this->badAttributes[\strtolower($key)]))
             {
                 return false;
             }
@@ -126,7 +126,7 @@ class SvgImage
         $children = $node->children();
         foreach ($children as $key => $val)
         {
-            if (isset($this->badTags[strtolower($key)]))
+            if (isset($this->badTags[\strtolower($key)]))
             {
                 return false;
             }
@@ -150,7 +150,17 @@ class SvgImage
         $this->width = $this->extractDimension('width');
         $this->height = $this->extractDimension('height');
 
-        if ($this->width && $this->height)
+        if (!$this->width || !$this->height)
+        {
+            // extract from viewBox
+            $dimensions = \explode(' ', (string)($xmlData['viewBox'] ?? ''), 4);
+            $dimensions = \array_map('\intval', $dimensions);
+
+            $this->width = $dimensions[3] ?? 0;
+            $this->height = $dimensions[4] ?? 0;
+        }
+
+        if ($this->width > 0 && $this->height > 0)
         {
             $thumbnailDimensions = \XF::options()->attachmentThumbnailDimensions;
             $aspectRatio = $this->width / $this->height;
@@ -170,7 +180,12 @@ class SvgImage
 
     protected function extractDimension(string $name): int
     {
-        $dimension = (string)$this->svgData[$name];
+        $dimension = (string)($this->svgData[$name] ?? '');
+        if (!\strlen($dimension))
+        {
+            return 0;
+        }
+
         if (\strrpos($dimension, 'px') === \strlen($dimension) - 2)
         {
             $dimension = \substr($dimension, 0, -2);
