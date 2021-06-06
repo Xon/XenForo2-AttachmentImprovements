@@ -37,7 +37,7 @@ class Preparer extends XFCP_Preparer
             /** @var \SV\AttachmentImprovements\SvgFileWrapper $wrapper */
             $file = new $class($file->getFilePath(), $file->getFileName());
         }
-        else if ($file->isImage() && $file->getImageType() == IMAGETYPE_JPEG && \XF::options()->svAttachmentsStripExif)
+        else if ($file->isImage() && $file->getImageType() == IMAGETYPE_JPEG && (\XF::options()->svAttachmentsStripExif ?? true))
         {
             // force a re-read of EXIF data
             FileWrapperUnwrapper::resetExifCache($file);

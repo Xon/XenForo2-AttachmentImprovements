@@ -41,12 +41,12 @@ class SvgImage
 
         if ($badTags === null)
         {
-            $badTags = \array_fill_keys(\explode(',', \strtolower(\XF::options()->SV_AttachImpro_badTags)), true);
+            $badTags = \array_fill_keys(\explode(',', \strtolower(\XF::options()->SV_AttachImpro_badTags ?? '')), true);
         }
 
         if ($badAttributes === null)
         {
-            $badAttributes = \array_fill_keys(\explode(',', \strtolower(\XF::options()->SV_AttachImpro_badAttributes)), true);
+            $badAttributes = \array_fill_keys(\explode(',', \strtolower(\XF::options()->SV_AttachImpro_badAttributes ?? '')), true);
         }
 
         $this->badTags = $badTags;

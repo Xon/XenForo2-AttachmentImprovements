@@ -30,7 +30,7 @@ class SvgFileWrapper extends \XF\FileWrapper
         {
             $dimensions = $this->svgImage->getDimensions();
 
-            return isset($dimensions['width']) ? $dimensions['width'] : 0;
+            return $dimensions['width'] ?? 0;
         }
 
         return parent::getImageWidth();
@@ -42,7 +42,7 @@ class SvgFileWrapper extends \XF\FileWrapper
         {
             $dimensions = $this->svgImage->getDimensions();
 
-            return isset($dimensions['height']) ? $dimensions['height'] : 0;
+            return $dimensions['height'] ?? 0;
         }
 
         return parent::getImageHeight();
@@ -59,7 +59,7 @@ class SvgFileWrapper extends \XF\FileWrapper
 
         if ($this->extension == 'svg')
         {
-            $throwOnBadData = \XF::options()->SV_RejectAttachmentWithBadTags;
+            $throwOnBadData = (bool)(\XF::options()->SV_RejectAttachmentWithBadTags ?? true);
             $class = \XF::extendClass('SV\AttachmentImprovements\SvgImage');
             $this->svgImage = new $class($this->filePath, $throwOnBadData);
             $this->isSvg = $this->svgImage->isValid();

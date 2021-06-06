@@ -20,7 +20,7 @@ class View extends XFCP_View
         SvgResponse::updateInlineImageTypes($this->response, 'svg', 'image/svg+xml');
 
         $options = \XF::options();
-        if ($options->SV_AttachImpro_XAR)
+        if ($options->SV_AttachImpro_XAR ?? false)
         {
             /** @var \XF\Entity\Attachment $attachment */
             $attachment = $this->params['attachment'];
@@ -28,7 +28,7 @@ class View extends XFCP_View
             $attachmentFile = $attachment->Data->getAbstractedDataPath();
             if ($attachmentFile = InternalPathUrlSupport::convertAbstractFilenameToURL($attachmentFile))
             {
-                if (\XF::$debugMode && $options->SV_AttachImpro_log)
+                if (\XF::$debugMode && ($options->SV_AttachImpro_log ?? false))
                 {
                     \XF::logError('X-Accel-Redirect:' . $attachmentFile, true);
                 }

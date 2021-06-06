@@ -21,7 +21,7 @@ class View extends XFCP_View
 
 
         $options = \XF::options();
-        if ($options->SV_AttachImpro_XAR)
+        if ($options->SV_AttachImpro_XAR ?? false)
         {
             /** @var \XF\Entity\Attachment $attachment */
             $attachment = $this->params['attachment'];
@@ -30,7 +30,7 @@ class View extends XFCP_View
             $attachmentFile = InternalPathUrlSupport::convertAbstractFilenameToURL($attachmentFile);
             if ($attachmentFile)
             {
-                if (\XF::$debugMode && $options->SV_AttachImpro_log)
+                if (\XF::$debugMode && ($options->SV_AttachImpro_log ?? false))
                 {
                     \XF::logError('X-Accel-Redirect:' . $attachmentFile, true);
                 }
@@ -51,7 +51,7 @@ class View extends XFCP_View
                 $rangeRequest = isset($this->params['rangeRequest']) ? \strtolower($this->params['rangeRequest']) : null;
                 if ($rangeRequest !== null)
                 {
-                    $chunkSize = isset($options->svPartialContentChunkSize) ?  $options->svPartialContentChunkSize * 1024 : 0;
+                    $chunkSize = 1024 * (int)($options->svPartialContentChunkSize ?? 0);
                     /** @var \XF\Entity\Attachment $attachment */
                     $attachment = $this->params['attachment'];
                     if (!\preg_match('/^bytes\s*=\s*(\d+\s*-\s*(?:\d+|))\s*(?:\s*,\s*(\d+\s*-\s*\d+)\s*)*\s*$/', $rangeRequest, $matches))
