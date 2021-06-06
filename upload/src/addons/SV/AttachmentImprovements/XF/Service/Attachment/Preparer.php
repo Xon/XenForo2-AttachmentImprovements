@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\AttachmentImprovements\XF\Service\Attachment;
 
@@ -24,7 +27,6 @@ class Preparer extends XFCP_Preparer
      * @param array       $extra
      * @return \XF\Entity\AttachmentData
      * @throws \XF\PrintableException
-     * @noinspection PhpMissingParamTypeInspection
      */
     public function insertDataFromFile(FileWrapper $file, $userId, array $extra = [])
     {
@@ -79,7 +81,7 @@ class Preparer extends XFCP_Preparer
      * @param int|null $width
      * @param int|null $height
      * @return null|string
-     * @noinspection PhpMissingParamTypeInspection
+     * @throws \XF\PrintableException
      */
     public function generateAttachmentThumbnail($sourceFile, &$width = null, &$height = null)
     {

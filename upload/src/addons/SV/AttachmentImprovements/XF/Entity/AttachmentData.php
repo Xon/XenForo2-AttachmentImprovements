@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\AttachmentImprovements\XF\Entity;
 
@@ -33,7 +36,6 @@ class AttachmentData extends XFCP_AttachmentData
      * @param string $dataId
      * @param string $fileHash
      * @return string
-     * @noinspection PhpMissingParamTypeInspection
      */
     protected function _getAbstractedThumbnailPath($dataId, $fileHash)
     {

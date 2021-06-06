@@ -1,9 +1,13 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\AttachmentImprovements\XF\Attachment;
 
 class ConversationMessage extends XFCP_ConversationMessage
 {
+    /** @noinspection PhpUnnecessaryLocalVariableInspection */
     public function getConstraints(array $context)
     {
         $constraints = parent::getConstraints($context);

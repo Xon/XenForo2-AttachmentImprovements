@@ -45,7 +45,7 @@ class PartialResponseStream extends ResponseStream
      * @param bool $returnBuffer
      * @return string|null
      */
-    protected function readChunks(bool $returnBuffer = false)
+    protected function readChunks(bool $returnBuffer)
     {
         $output = '';
 
