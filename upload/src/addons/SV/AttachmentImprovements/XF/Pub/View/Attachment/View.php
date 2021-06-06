@@ -69,11 +69,11 @@ class View extends XFCP_View
                     foreach ($matches as $range)
                     {
                         $start = $end = 0;
-                        $parts = explode('-', $range);
-                        if (count($parts) === 2)
+                        $parts = \explode('-', $range);
+                        if (\count($parts) === 2)
                         {
-                            $parts[0] = trim($parts[0]);
-                            $parts[1] = trim($parts[1]);
+                            $parts[0] = \trim($parts[0]);
+                            $parts[1] = \trim($parts[1]);
                             $start = (int)$parts[0];
                             $end = $parts[1] === '' ? $fileSize: (int)$parts[1];
                             if ($start < 0 || $end > $fileSize)
@@ -109,9 +109,9 @@ class View extends XFCP_View
                     ;
                     $internalContentType = $this->response->contentType();
                     $boundary = '';
-                    if (count($ranges) > 1)
+                    if (\count($ranges) > 1)
                     {
-                        $boundary = md5('attachment' . $attachment->attach_date . \XF::$time);
+                        $boundary = \md5('attachment' . $attachment->attach_date . \XF::$time);
                         ResponseMultiPart::contentTypeForced($this->response, 'multipart/byteranges; boundary='. $boundary, '');
                     }
                     else

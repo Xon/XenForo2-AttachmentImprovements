@@ -7,7 +7,7 @@ abstract class InternalPathUrlSupport
 
     public static function convertAbstractFilenameToURL(string $attachmentFile, bool $canonical = false)
     {
-        list($prefix, $path) = explode('://', $attachmentFile, 2);
+        list($prefix, $path) = \explode('://', $attachmentFile, 2);
         if ($prefix === 'internal-data')
         {
             return self::applyInternalDataUrl($path, $canonical);
@@ -41,7 +41,7 @@ abstract class InternalPathUrlSupport
 
         $url = $pather($url, $canonical ? 'canonical' : 'nopath');
 
-        if (!preg_match('#^(/|[a-z]+:)#i', $url))
+        if (!\preg_match('#^(/|[a-z]+:)#i', $url))
         {
             $url = '/' . $url;
         }

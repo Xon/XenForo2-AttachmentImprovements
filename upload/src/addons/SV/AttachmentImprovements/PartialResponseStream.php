@@ -49,7 +49,7 @@ class PartialResponseStream extends ResponseStream
     {
         $output = '';
 
-        $multiPart = count($this->ranges) > 1;
+        $multiPart = \count($this->ranges) > 1;
         foreach ($this->ranges as $range)
         {
             $length = $range[1] - $range[0] + 1;

@@ -41,12 +41,12 @@ class SvgImage
 
         if ($badTags === null)
         {
-            $badTags = array_fill_keys(explode(',', strtolower(\XF::options()->SV_AttachImpro_badTags)), true);
+            $badTags = \array_fill_keys(\explode(',', \strtolower(\XF::options()->SV_AttachImpro_badTags)), true);
         }
 
         if ($badAttributes === null)
         {
-            $badAttributes = array_fill_keys(explode(',', strtolower(\XF::options()->SV_AttachImpro_badAttributes)), true);
+            $badAttributes = \array_fill_keys(\explode(',', \strtolower(\XF::options()->SV_AttachImpro_badAttributes)), true);
         }
 
         $this->badTags = $badTags;
@@ -158,12 +158,12 @@ class SvgImage
             if ($this->width > $this->height && $this->width > $thumbnailDimensions)
             {
                 $this->thumbnailWidth = $thumbnailDimensions;
-                $this->thumbnailHeight = intval($thumbnailDimensions / $aspectRatio);
+                $this->thumbnailHeight = \intval($thumbnailDimensions / $aspectRatio);
             }
             else if ($this->height > $thumbnailDimensions)
             {
                 $this->thumbnailHeight = $thumbnailDimensions;
-                $this->thumbnailWidth = intval($thumbnailDimensions * $aspectRatio);
+                $this->thumbnailWidth = \intval($thumbnailDimensions * $aspectRatio);
             }
         }
     }
@@ -171,12 +171,12 @@ class SvgImage
     protected function extractDimension(string $name): int
     {
         $dimension = (string)$this->svgData[$name];
-        if (strrpos($dimension, 'px') === strlen($dimension) - 2)
+        if (\strrpos($dimension, 'px') === \strlen($dimension) - 2)
         {
-            $dimension = substr($dimension, 0, -2);
+            $dimension = \substr($dimension, 0, -2);
         }
 
-        return intval($dimension);
+        return \intval($dimension);
     }
 
     public function getSvgData(): \SimpleXMLElement
@@ -194,8 +194,8 @@ class SvgImage
         $this->width = $width;
         $this->height = $height;
 
-        $this->svgData['width'] = strval($this->width);
-        $this->svgData['height'] = strval($this->height);
+        $this->svgData['width'] = \strval($this->width);
+        $this->svgData['height'] = \strval($this->height);
     }
 
     public function save(string $filename): bool
