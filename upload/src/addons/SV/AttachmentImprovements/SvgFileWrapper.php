@@ -60,7 +60,7 @@ class SvgFileWrapper extends \XF\FileWrapper
             return;
         }
 
-        if ($this->extension == 'svg')
+        if ($this->extension === 'svg')
         {
             $throwOnBadData = (bool)(\XF::options()->SV_RejectAttachmentWithBadTags ?? true);
             $class = \XF::extendClass('SV\AttachmentImprovements\SvgImage');

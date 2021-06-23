@@ -20,7 +20,7 @@ class Setup extends AbstractSetup
         $option = \XF::app()->finder('XF:Option')->whereId('attachmentImageExtensions')->fetchOne();
         if ($option)
         {
-            if ($option->option_value == '1')
+            if ($option->option_value === '1')
             {
                 $option->option_value = $option->default_value;
                 $option->save();
