@@ -9,7 +9,10 @@ class SvgFileWrapper extends \XF\FileWrapper
     /** @var SvgImage */
     protected $svgImage = null;
 
-    public function getImageType(): string
+    /**
+     * @return int|string|null
+     */
+    public function getImageType()
     {
         if ($this->isImage() && $this->isSvg)
         {
