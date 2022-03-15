@@ -156,8 +156,8 @@ class SvgImage
             $dimensions = \explode(' ', (string)($xmlData['viewBox'] ?? ''), 4);
             $dimensions = \array_map('\intval', $dimensions);
 
-            $this->width = $dimensions[3] ?? 0;
-            $this->height = $dimensions[4] ?? 0;
+            $this->width = $dimensions[2] ?? 0;
+            $this->height = $dimensions[3] ?? 0;
         }
 
         if ($this->width > 0 && $this->height > 0)
