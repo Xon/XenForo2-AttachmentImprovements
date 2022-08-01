@@ -3,9 +3,19 @@
 
         var dropzoneCounter = 0;
         var template = '';
+        function skipDragOperation(e) {
+            var c = e.originalEvent.dataTransfer;
+            if (!c.types || 1 !== c.types.length || "Files" !== c.types[0] || c.dropEffect === 'none') {
+                return true;
+            }
+            if (c.dropEffect === 'move') {
+                c.dropEffect = 'copy';
+            }
+            return false;
+        }
         function dragenter(e) {
-            if (e.originalEvent.dataTransfer.dropEffect === 'move') {
-                e.originalEvent.dataTransfer.dropEffect = 'copy';
+            if (skipDragOperation(e)) {
+                return;
             }
             dropzoneCounter++;
             if (dropzoneCounter === 1) {
@@ -23,11 +33,15 @@
             }
         }
         function dragover(e) {
-            if (e.originalEvent.dataTransfer.dropEffect === 'move') {
-                e.originalEvent.dataTransfer.dropEffect = 'copy';
+            if (dropzoneCounter === 0) {
+                return;
             }
+            skipDragOperation(e);
         }
         function dragleave(e) {
+            if (dropzoneCounter === 0) {
+                return;
+            }
             dropzoneCounter--;
             if (dropzoneCounter <= 0) {
                 dragdrop(e);
