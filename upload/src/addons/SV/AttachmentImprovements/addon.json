@@ -2,16 +2,16 @@
     "legacy_addon_id": "SV_AttachmentImprovements",
     "title": "Attachment Improvements",
     "description": "A collection of improvements to XF's attachment system",
-    "version_id": 2030200,
-    "version_string": "2.3.2",
+    "version_id": 2040000,
+    "version_string": "2.4.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com/",
     "faq_url": "",
     "support_url": "https://xenforo.com/community/resources/attachment-improvements-by-xon.6629/",
     "extra_urls": [],
     "require": {
-        "XF": [2010070, "XenForo 2.1.0+"],
-        "php": ["7.0.0", "PHP 7.0.0+"]
+        "XF": [2020070, "XenForo 2.2.0+"],
+        "php": ["7.2.0", "PHP 7.2.0+"]
     },
     "icon": "fa-download"
 }
