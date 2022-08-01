@@ -36,7 +36,7 @@ class Preparer extends XFCP_Preparer
         if (!$file->isImage() && $file->getExtension() === 'svg')
         {
             // inject SVG support
-            $class = \XF::extendClass('SV\AttachmentImprovements\SvgFileWrapper');
+            $class = \XF::extendClass(\SV\AttachmentImprovements\SvgFileWrapper::class);
             /** @var \SV\AttachmentImprovements\SvgFileWrapper $wrapper */
             $file = new $class($file->getFilePath(), $file->getFileName());
         }
@@ -87,7 +87,7 @@ class Preparer extends XFCP_Preparer
         if ($newTempFile === null)
         {
             // inject SVG support
-            $class = \XF::extendClass('SV\AttachmentImprovements\SvgFileWrapper');
+            $class = \XF::extendClass(\SV\AttachmentImprovements\SvgFileWrapper::class);
             /** @var \SV\AttachmentImprovements\SvgFileWrapper $wrapper */
             $wrapper = new $class($sourceFile, $this->filename);
 

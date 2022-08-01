@@ -137,9 +137,14 @@ class View extends XFCP_View
      * @param string   $boundary
      * @param array    $ranges
      * @return PartialResponseStream
+     * @throws \Exception
      */
     public function responseStream($resource, string $internalContentType, string $boundary, array $ranges): ResponseStream
     {
-        return new PartialResponseStream($resource, $internalContentType, $boundary, $ranges);
+        $class = \XF::extendClass(PartialResponseStream::class);
+        /** @var PartialResponseStream $obj */
+        $obj = new $class($resource, $internalContentType, $boundary, $ranges);
+
+        return $obj;
     }
 }
