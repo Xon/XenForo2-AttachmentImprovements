@@ -4,14 +4,16 @@ namespace SV\AttachmentImprovements;
 
 use XF\PrintableException;
 use XF\Util\Xml;
+use function array_fill_keys, explode, strtolower, strval, array_map, strlen, strrpos, substr;
 
 class SvgImage
 {
     const IMAGETYPE_SVG = 'imagetype_svg';
 
+    /** @var string|null */
     protected $svgPath;
 
-    /** @var \SimpleXMLElement */
+    /** @var \SimpleXMLElement|null */
     protected $svgData;
 
     /** @var int|null */
@@ -41,12 +43,12 @@ class SvgImage
 
         if ($badTags === null)
         {
-            $badTags = \array_fill_keys(\explode(',', \strtolower(\XF::options()->SV_AttachImpro_badTags ?? '')), true);
+            $badTags = array_fill_keys(explode(',', strtolower(\XF::options()->SV_AttachImpro_badTags ?? '')), true);
         }
 
         if ($badAttributes === null)
         {
-            $badAttributes = \array_fill_keys(\explode(',', \strtolower(\XF::options()->SV_AttachImpro_badAttributes ?? '')), true);
+            $badAttributes = array_fill_keys(explode(',', strtolower(\XF::options()->SV_AttachImpro_badAttributes ?? '')), true);
         }
 
         $this->badTags = $badTags;
@@ -112,7 +114,7 @@ class SvgImage
     {
         foreach ($node->attributes() AS $key => $val)
         {
-            if (isset($this->badAttributes[\strtolower($key)]))
+            if (isset($this->badAttributes[strtolower($key)]))
             {
                 return false;
             }
@@ -126,7 +128,7 @@ class SvgImage
         $children = $node->children();
         foreach ($children as $key => $val)
         {
-            if (isset($this->badTags[\strtolower($key)]))
+            if (isset($this->badTags[strtolower($key)]))
             {
                 return false;
             }
@@ -150,14 +152,14 @@ class SvgImage
         $this->width = $this->extractDimension('width');
         $this->height = $this->extractDimension('height');
 
-        if (!$this->width || !$this->height)
+        if ($this->width == 0 || $this->height == 0)
         {
             // extract from viewBox
-            $dimensions = \explode(' ', (string)($xmlData['viewBox'] ?? ''), 4);
-            $dimensions = \array_map('\intval', $dimensions);
+            $dimensions = explode(' ', (string)($xmlData['viewBox'] ?? ''), 4);
+            $dimensions = array_map('\intval', $dimensions);
 
-            $this->width = $dimensions[2] ?? 0;
-            $this->height = $dimensions[3] ?? 0;
+            $this->width = (int)($dimensions[2] ?? 0);
+            $this->height = (int)($dimensions[3] ?? 0);
         }
 
         if ($this->width > 0 && $this->height > 0)
@@ -168,12 +170,12 @@ class SvgImage
             if ($this->width > $this->height && $this->width > $thumbnailDimensions)
             {
                 $this->thumbnailWidth = $thumbnailDimensions;
-                $this->thumbnailHeight = \intval($thumbnailDimensions / $aspectRatio);
+                $this->thumbnailHeight = (int)($thumbnailDimensions / $aspectRatio);
             }
             else if ($this->height > $thumbnailDimensions)
             {
                 $this->thumbnailHeight = $thumbnailDimensions;
-                $this->thumbnailWidth = \intval($thumbnailDimensions * $aspectRatio);
+                $this->thumbnailWidth = (int)($thumbnailDimensions * $aspectRatio);
             }
         }
     }
@@ -181,25 +183,28 @@ class SvgImage
     protected function extractDimension(string $name): int
     {
         $dimension = (string)($this->svgData[$name] ?? '');
-        if (!\strlen($dimension))
+        if (strlen($dimension) == 0)
         {
             return 0;
         }
 
-        if (\strrpos($dimension, 'px') === \strlen($dimension) - 2)
+        if (strrpos($dimension, 'px') === strlen($dimension) - 2)
         {
-            $dimension = \substr($dimension, 0, -2);
+            $dimension = substr($dimension, 0, -2);
         }
 
-        return \intval($dimension);
+        return (int)$dimension;
     }
 
-    public function getSvgData(): \SimpleXMLElement
+    /**
+     * @return \SimpleXMLElement|null
+     */
+    public function getSvgData()
     {
         return $this->svgData;
     }
 
-    public function setSvgData(\SimpleXMLElement $svgData)
+    public function setSvgData(\SimpleXMLElement $svgData = null)
     {
         $this->svgData = $svgData;
     }
@@ -209,8 +214,8 @@ class SvgImage
         $this->width = $width;
         $this->height = $height;
 
-        $this->svgData['width'] = \strval($this->width);
-        $this->svgData['height'] = \strval($this->height);
+        $this->svgData['width'] = strval($this->width);
+        $this->svgData['height'] = strval($this->height);
     }
 
     public function save(string $filename): bool

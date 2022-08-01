@@ -5,9 +5,6 @@ namespace SV\AttachmentImprovements\XF\Admin\View\Attachment;
 use SV\AttachmentImprovements\InternalPathUrlSupport;
 use SV\AttachmentImprovements\SvgResponse;
 
-/**
- * Extends \XF\Admin\View\Attachment\View
- */
 class View extends XFCP_View
 {
     public function renderRaw()

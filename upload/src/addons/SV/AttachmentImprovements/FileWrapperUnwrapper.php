@@ -3,6 +3,7 @@
 namespace SV\AttachmentImprovements;
 
 use XF\FileWrapper;
+use function clearstatcache, filesize;
 
 class FileWrapperUnwrapper extends FileWrapper
 {

@@ -7,6 +7,7 @@ use SV\AttachmentImprovements\PartialResponseStream;
 use SV\AttachmentImprovements\SvgResponse;
 use SV\AttachmentImprovements\ResponseMultiPart;
 use XF\Http\ResponseStream;
+use function count, explode, trim, md5, preg_match;
 
 class View extends XFCP_View
 {
@@ -18,7 +19,6 @@ class View extends XFCP_View
         }
 
         SvgResponse::updateInlineImageTypes($this->response, 'svg', 'image/svg+xml');
-
 
         $options = \XF::options();
         if ($options->SV_AttachImpro_XAR ?? false)
@@ -54,7 +54,7 @@ class View extends XFCP_View
                     $chunkSize = 1024 * (int)($options->svPartialContentChunkSize ?? 0);
                     /** @var \XF\Entity\Attachment $attachment */
                     $attachment = $this->params['attachment'];
-                    if (!\preg_match('/^bytes\s*=\s*(\d+\s*-\s*(?:\d+|))\s*(?:\s*,\s*(\d+\s*-\s*\d+)\s*)*\s*$/', $rangeRequest, $matches))
+                    if (!preg_match('/^bytes\s*=\s*(\d+\s*-\s*(?:\d+|))\s*(?:\s*,\s*(\d+\s*-\s*\d+)\s*)*\s*$/', $rangeRequest, $matches))
                     {
                         $this->response
                             ->httpCode('416')
@@ -69,11 +69,11 @@ class View extends XFCP_View
                     foreach ($matches as $range)
                     {
                         $start = $end = 0;
-                        $parts = \explode('-', $range);
-                        if (\count($parts) === 2)
+                        $parts = explode('-', $range);
+                        if (count($parts) === 2)
                         {
-                            $parts[0] = \trim($parts[0]);
-                            $parts[1] = \trim($parts[1]);
+                            $parts[0] = trim($parts[0]);
+                            $parts[1] = trim($parts[1]);
                             $start = (int)$parts[0];
                             $end = $parts[1] === '' ? $fileSize: (int)$parts[1];
                             if ($start < 0 || $end > $fileSize)
@@ -109,9 +109,9 @@ class View extends XFCP_View
                     ;
                     $internalContentType = $this->response->contentType();
                     $boundary = '';
-                    if (\count($ranges) > 1)
+                    if (count($ranges) > 1)
                     {
-                        $boundary = \md5('attachment' . $attachment->attach_date . \XF::$time);
+                        $boundary = md5('attachment' . $attachment->attach_date . \XF::$time);
                         ResponseMultiPart::contentTypeForced($this->response, 'multipart/byteranges; boundary='. $boundary, '');
                     }
                     else

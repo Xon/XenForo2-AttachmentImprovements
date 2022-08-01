@@ -3,6 +3,7 @@
 namespace SV\AttachmentImprovements;
 
 use XF\Http\ResponseStream;
+use function strlen, count, fseek, fread;
 
 class PartialResponseStream extends ResponseStream
 {
@@ -18,13 +19,13 @@ class PartialResponseStream extends ResponseStream
 
     public function __construct($resource, string $internalContentType, string $boundary, array $ranges)
     {
-        if (!$ranges)
+        if (count($ranges) === 0)
         {
             throw new \InvalidArgumentException("Must have a set of ranges");
         }
 
         $length = 0;
-        foreach($ranges as $range)
+        foreach ($ranges as $range)
         {
             $length += ($range[1] - $range[0]) + 1;
         }
@@ -38,7 +39,8 @@ class PartialResponseStream extends ResponseStream
     public function getLength(): int
     {
         $content = $this->getContents();
-        return \strlen($content);
+
+        return strlen($content);
     }
 
     /**
@@ -49,12 +51,12 @@ class PartialResponseStream extends ResponseStream
     {
         $output = '';
 
-        $multiPart = \count($this->ranges) > 1;
+        $multiPart = count($this->ranges) > 1;
         foreach ($this->ranges as $range)
         {
             $length = $range[1] - $range[0] + 1;
 
-            if (\fseek($this->resource, $range[0]) === -1)
+            if (fseek($this->resource, $range[0]) === -1)
             {
                 // seek failed, bail
                 break;
@@ -77,7 +79,7 @@ class PartialResponseStream extends ResponseStream
         {
             $output .= "\n--{$this->boundary}--\n";
         }
-        $this->length = \strlen($output);
+        $this->length = strlen($output);
 
         if ($returnBuffer)
         {

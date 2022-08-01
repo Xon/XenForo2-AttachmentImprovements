@@ -7,7 +7,6 @@ use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
 use XF\AddOn\StepRunnerUpgradeTrait;
 
-
 class Setup extends AbstractSetup
 {
     use StepRunnerInstallTrait;
@@ -18,13 +17,10 @@ class Setup extends AbstractSetup
     {
         /** @var \XF\Entity\Option $option */
         $option = \XF::app()->finder('XF:Option')->whereId('attachmentImageExtensions')->fetchOne();
-        if ($option)
+        if ($option !== null && $option->option_value === '1')
         {
-            if ($option->option_value === '1')
-            {
-                $option->option_value = $option->default_value;
-                $option->save();
-            }
+            $option->option_value = $option->default_value;
+            $option->save();
         }
     }
 }

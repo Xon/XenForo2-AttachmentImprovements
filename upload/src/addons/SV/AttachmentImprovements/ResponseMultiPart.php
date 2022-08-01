@@ -4,11 +4,6 @@ namespace SV\AttachmentImprovements;
 
 use XF\Http\Response;
 
-/**
- * Class ResponseMultiPart
- *
- * @package SV\LiveContent
- */
 class ResponseMultiPart extends Response
 {
     /**

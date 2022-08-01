@@ -21,12 +21,12 @@ class ConversationMessage extends XFCP_ConversationMessage
     {
         $visitor = \XF::visitor();
 
-        $size = $visitor->hasPermission('conversation', 'attach_size');
+        $size = (int)$visitor->hasPermission('conversation', 'attach_size');
         if ($size > 0 && $size < $constraints['size'])
         {
             $constraints['size'] = $size * 1024;
         }
-        $count = $visitor->hasPermission('conversation', 'attach_count');
+        $count = (int)$visitor->hasPermission('conversation', 'attach_count');
         if ($count > 0 && $count < $constraints['count'])
         {
             $constraints['count'] = $count;

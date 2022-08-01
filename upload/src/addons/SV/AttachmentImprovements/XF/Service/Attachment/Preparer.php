@@ -9,6 +9,7 @@ use SV\AttachmentImprovements\FileWrapperUnwrapper;
 use SV\AttachmentImprovements\SvgImage;
 use XF\FileWrapper;
 use XF\Util\File;
+use function is_array;
 
 class Preparer extends XFCP_Preparer
 {
@@ -46,31 +47,28 @@ class Preparer extends XFCP_Preparer
             $orientation = 0;
             // incase exif extension is being stupid
             $exif = $file->getExif();
-            if ($exif)
+            if (is_array($exif) && !empty($exif['IFD0']['Orientation']) && $exif['IFD0']['Orientation'] > 1)
             {
-                if (!empty($exif['IFD0']['Orientation']) && $exif['IFD0']['Orientation'] > 1)
-                {
-                    $orientation = $exif['IFD0']['Orientation'];
-                }
-                $transformRequired = ($orientation > 1);
-
-                $tempFile = $file->getFilePath();
-                $image = \XF::app()->imageManager()->imageFromFile($tempFile);
-                if (!$image)
-                {
-                    // not actually a valid JPEG image
-                    return parent::insertDataFromFile($file, $userId, $extra);
-                }
-                if ($transformRequired)
-                {
-                    $image->transformByExif($orientation);
-                }
-                // xenforo strips the image of EXIF data by-default, in-case exif parsing fails but is present re-save anyway.
-                $image->save($tempFile, null, 100);
-                FileWrapperUnwrapper::refreshFileSize($file);
-                // wipe EXIF data for the final time
-                FileWrapperUnwrapper::resetExifCache($file);
+                $orientation = $exif['IFD0']['Orientation'];
             }
+            $transformRequired = ($orientation > 1);
+
+            $tempFile = $file->getFilePath();
+            $image = \XF::app()->imageManager()->imageFromFile($tempFile);
+            if ($image === null)
+            {
+                // not actually a valid JPEG image
+                return parent::insertDataFromFile($file, $userId, $extra);
+            }
+            if ($transformRequired)
+            {
+                $image->transformByExif($orientation);
+            }
+            // xenforo strips the image of EXIF data by-default, in-case exif parsing fails but is present re-save anyway.
+            $image->save($tempFile, null, 100);
+            FileWrapperUnwrapper::refreshFileSize($file);
+            // wipe EXIF data for the final time
+            FileWrapperUnwrapper::resetExifCache($file);
         }
 
         return parent::insertDataFromFile($file, $userId, $extra);
@@ -86,7 +84,7 @@ class Preparer extends XFCP_Preparer
     public function generateAttachmentThumbnail($sourceFile, &$width = null, &$height = null)
     {
         $newTempFile = parent::generateAttachmentThumbnail($sourceFile, $width, $height);
-        if (!$newTempFile)
+        if ($newTempFile === null)
         {
             // inject SVG support
             $class = \XF::extendClass('SV\AttachmentImprovements\SvgFileWrapper');
@@ -111,7 +109,6 @@ class Preparer extends XFCP_Preparer
             }
             $image->resize($dimensions['thumbnail_width'], $dimensions['thumbnail_height']);
 
-
             $newTempFile = File::getTempFile();
 
             if ($newTempFile && $image->save($newTempFile))
@@ -121,10 +118,8 @@ class Preparer extends XFCP_Preparer
 
                 return $newTempFile;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         return $newTempFile;

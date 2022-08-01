@@ -5,9 +5,8 @@
 
 namespace SV\AttachmentImprovements\XF\Entity;
 
-/**
- * Extends \XF\Entity\AttachmentData
- */
+use function sprintf, floor;
+
 class AttachmentData extends XFCP_AttachmentData
 {
     /**
@@ -23,8 +22,8 @@ class AttachmentData extends XFCP_AttachmentData
 
         $dataId = $this->data_id;
 
-        $path = \sprintf('attachments/%d/%d-%s.svg',
-            \floor($dataId / 1000),
+        $path = sprintf('attachments/%d/%d-%s.svg',
+            floor($dataId / 1000),
             $dataId,
             $this->file_hash
         );
@@ -44,8 +43,8 @@ class AttachmentData extends XFCP_AttachmentData
             return parent::_getAbstractedThumbnailPath($dataId, $fileHash);
         }
 
-        return \sprintf('data://attachments/%d/%d-%s.svg',
-            \floor($dataId / 1000),
+        return sprintf('data://attachments/%d/%d-%s.svg',
+            floor($dataId / 1000),
             $dataId,
             $fileHash
         );

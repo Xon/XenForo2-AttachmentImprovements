@@ -12,18 +12,18 @@ class Post extends XFCP_Post
         $constraints = parent::getConstraints($context);
 
         $thread = null;
-        $nodeId = null;
+        $nodeId = 0;
         $em = \XF::app()->em();
 
         if (!empty($context['node_id']))
         {
-            $nodeId = $context['node_id'];
+            $nodeId = (int)$context['node_id'];
         }
         else if (!empty($context['thread_id']))
         {
             /** @var \XF\Entity\Thread $thread */
             $thread = $em->find('XF:Thread', $context['thread_id']);
-            if ($thread)
+            if ($thread !== null)
             {
                 $nodeId = $thread->node_id;
             }
@@ -36,14 +36,14 @@ class Post extends XFCP_Post
             {
                 /** @var \XF\Entity\Thread $thread */
                 $thread = $em->find('XF:Thread', $post->thread_id);
-                if ($thread)
+                if ($thread !== null)
                 {
                     $nodeId = $thread->node_id;
                 }
             }
         }
 
-        if ($nodeId)
+        if ($nodeId !== 0)
         {
             $constraints = $this->svUpdateConstraints($constraints, $nodeId, $thread);
         }
@@ -62,12 +62,12 @@ class Post extends XFCP_Post
     {
         $visitor = \XF::visitor();
 
-        $size = $visitor->hasNodePermission($nodeId, 'attach_size');
+        $size = (int)$visitor->hasNodePermission($nodeId, 'attach_size');
         if ($size > 0 && $size < $constraints['size'])
         {
             $constraints['size'] = $size * 1024;
         }
-        $count = $visitor->hasNodePermission($nodeId, 'attach_count');
+        $count = (int)$visitor->hasNodePermission($nodeId, 'attach_count');
         if ($count > 0 && $count < $constraints['count'])
         {
             $constraints['count'] = $count;
