@@ -1,0 +1,9 @@
+{
+    "template": "helper_attach_upload",
+    "description": "Inject attachment handling changes",
+    "execution_order": 6629,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#[\\t ]<xf:js prod=\"xf/attachment_manager-compiled.js\"#",
+    "replace": "<xf:include template=\"svAttachmentImprovements_editor\" />\n$0"
+}
