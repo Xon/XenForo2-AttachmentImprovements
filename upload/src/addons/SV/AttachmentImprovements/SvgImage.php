@@ -196,10 +196,7 @@ class SvgImage
         return (int)$dimension;
     }
 
-    /**
-     * @return \SimpleXMLElement|null
-     */
-    public function getSvgData()
+    public function getSvgData(): ?\SimpleXMLElement
     {
         return $this->svgData;
     }
@@ -223,18 +220,12 @@ class SvgImage
         return $this->svgData->saveXML($filename) !== false;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getWidth()
+    public function getWidth(): ?int
     {
         return $this->width;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getHeight()
+    public function getHeight(): ?int
     {
         return $this->height;
     }

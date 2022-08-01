@@ -22,10 +22,7 @@ class SvgFileWrapper extends \XF\FileWrapper
         return parent::getImageType();
     }
 
-    /**
-     * @return SvgImage|null
-     */
-    public function getImageData()
+    public function getImageData(): ?SvgImage
     {
         return $this->isImage() && $this->isSvg ? $this->svgImage : null;
     }
