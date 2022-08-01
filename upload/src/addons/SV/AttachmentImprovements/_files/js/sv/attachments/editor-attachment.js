@@ -22,6 +22,11 @@
                 }
             }
         }
+        function dragover(e) {
+            if (e.originalEvent.dataTransfer.dropEffect === 'move') {
+                e.originalEvent.dataTransfer.dropEffect = 'copy';
+            }
+        }
         function dragleave(e) {
             dropzoneCounter--;
             if (dropzoneCounter <= 0) {
@@ -38,7 +43,9 @@
         return {
             _init: function() {
                 template = $('.js-attachmentDragHoverTemplate').html() || '';
+                // the draggable plugin forces 'move' rather than 'copy' which behaves very badly with some source programs
                 editor.events.on("dragenter", dragenter);
+                editor.events.on("dragover", dragover);
                 editor.events.on("dragleave", dragleave);
                 editor.events.on("drop", dragdrop, 1);
                 editor.events.on("document.dragend", dragdrop, 1);
