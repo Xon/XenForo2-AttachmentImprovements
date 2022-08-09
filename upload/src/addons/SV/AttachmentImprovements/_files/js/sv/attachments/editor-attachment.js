@@ -1,6 +1,6 @@
+var SV = window.SV || {};
 (function ($) {
-    $.FE.PLUGINS.attachmentHoverUi = function(editor) {
-
+    SV.attachmentHoverUi = function(editor) {
         var dropzoneCounter = 0;
         var template = '';
         function skipDragOperation(e) {
@@ -66,5 +66,9 @@
                 editor.events.on("document.drop", dragdrop, 1);
             }
         }
-    }
+    };
+
+    $(document).on('editor:first-start', function() {
+        $.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
+    });
 })(jQuery);
