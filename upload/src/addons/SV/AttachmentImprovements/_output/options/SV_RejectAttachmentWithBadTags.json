@@ -5,7 +5,7 @@
     "sub_options": [],
     "validation_class": "",
     "validation_method": "",
-    "advanced": false,
+    "advanced": true,
     "default_value": "1",
     "relations": {
         "attachments": 1210

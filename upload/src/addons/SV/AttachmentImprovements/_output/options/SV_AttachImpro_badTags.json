@@ -5,9 +5,9 @@
     "sub_options": [],
     "validation_class": "",
     "validation_method": "",
-    "advanced": false,
+    "advanced": true,
     "default_value": "foreignobject,script",
     "relations": {
-        "attachments": 1220
+        "attachments": 1230
     }
 }
