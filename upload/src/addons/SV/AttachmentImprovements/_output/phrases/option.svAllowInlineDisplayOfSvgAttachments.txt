@@ -1,0 +1,1 @@
+Allow inline display of SVG image attachments

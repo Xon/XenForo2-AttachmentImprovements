@@ -1,0 +1,3 @@
+SVG images are a complex format, and non-validated SVGs can allow arbitrary javascript to be loaded in the site's context. This add-on does attempt to sanitize any attached SVGs<br/>
+<br/>
+This applies to existing attachments. To stop SVG's being upload remove the 'svg' extension from the <i>Allowed attachment file extensions</i> option.
