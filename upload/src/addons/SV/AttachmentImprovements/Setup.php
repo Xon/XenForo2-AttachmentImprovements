@@ -12,15 +12,4 @@ class Setup extends AbstractSetup
     use StepRunnerInstallTrait;
     use StepRunnerUpgradeTrait;
     use StepRunnerUninstallTrait;
-
-    public function upgrade2000700Step1()
-    {
-        /** @var \XF\Entity\Option $option */
-        $option = \XF::app()->finder('XF:Option')->whereId('attachmentImageExtensions')->fetchOne();
-        if ($option !== null && $option->option_value === '1')
-        {
-            $option->option_value = $option->default_value;
-            $option->save();
-        }
-    }
 }
