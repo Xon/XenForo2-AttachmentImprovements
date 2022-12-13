@@ -6,6 +6,7 @@ use SV\AttachmentImprovements\InternalPathUrlSupport;
 use SV\AttachmentImprovements\PartialResponseStream;
 use SV\AttachmentImprovements\SvgResponse;
 use SV\AttachmentImprovements\ResponseMultiPart;
+use SV\AttachmentImprovements\XF\Entity\AttachmentData;
 use XF\Http\ResponseStream;
 use function count, explode, trim, md5, preg_match;
 
@@ -18,14 +19,18 @@ class View extends XFCP_View
             return parent::renderRaw();
         }
 
-        SvgResponse::updateInlineImageTypes($this->response, 'svg', 'image/svg+xml');
+        /** @var \XF\Entity\Attachment $attachment */
+        $attachment = $this->params['attachment'];
+        /** @var AttachmentData $data */
+        $data = $attachment->Data;
+        if ($data->isSvg())
+        {
+            SvgResponse::updateInlineImageTypes($this->response, 'svg', 'image/svg+xml');
+        }
 
         $options = \XF::options();
         if ($options->SV_AttachImpro_XAR ?? false)
         {
-            /** @var \XF\Entity\Attachment $attachment */
-            $attachment = $this->params['attachment'];
-
             $attachmentFile = $attachment->Data->getAbstractedDataPath();
             $attachmentFile = InternalPathUrlSupport::convertAbstractFilenameToURL($attachmentFile);
             if ($attachmentFile)
@@ -52,8 +57,6 @@ class View extends XFCP_View
                 if ($rangeRequest !== null)
                 {
                     $chunkSize = 1024 * (int)($options->svPartialContentChunkSize ?? 0);
-                    /** @var \XF\Entity\Attachment $attachment */
-                    $attachment = $this->params['attachment'];
                     if (!preg_match('/^bytes\s*=\s*(\d+\s*-\s*(?:\d+|))\s*(?:\s*,\s*(\d+\s*-\s*\d+)\s*)*\s*$/', $rangeRequest, $matches))
                     {
                         $this->response

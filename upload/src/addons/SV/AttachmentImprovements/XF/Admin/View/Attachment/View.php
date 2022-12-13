@@ -4,6 +4,7 @@ namespace SV\AttachmentImprovements\XF\Admin\View\Attachment;
 
 use SV\AttachmentImprovements\InternalPathUrlSupport;
 use SV\AttachmentImprovements\SvgResponse;
+use SV\AttachmentImprovements\XF\Entity\AttachmentData;
 
 class View extends XFCP_View
 {
@@ -14,14 +15,18 @@ class View extends XFCP_View
             return parent::renderRaw();
         }
 
-        SvgResponse::updateInlineImageTypes($this->response, 'svg', 'image/svg+xml');
+        /** @var \XF\Entity\Attachment $attachment */
+        $attachment = $this->params['attachment'];
+        /** @var AttachmentData $data */
+        $data = $attachment->Data;
+        if ($data->isSvg())
+        {
+            SvgResponse::updateInlineImageTypes($this->response, 'svg', 'image/svg+xml');
+        }
 
         $options = \XF::options();
         if ($options->SV_AttachImpro_XAR ?? false)
         {
-            /** @var \XF\Entity\Attachment $attachment */
-            $attachment = $this->params['attachment'];
-
             $attachmentFile = $attachment->Data->getAbstractedDataPath();
             if ($attachmentFile = InternalPathUrlSupport::convertAbstractFilenameToURL($attachmentFile))
             {

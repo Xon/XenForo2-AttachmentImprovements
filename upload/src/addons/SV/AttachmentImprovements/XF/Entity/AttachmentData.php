@@ -15,7 +15,7 @@ class AttachmentData extends XFCP_AttachmentData
      */
     public function getThumbnailUrl($canonical = false)
     {
-        if (!$this->thumbnail_width || $this->extension !== 'svg')
+        if (!$this->isSvg())
         {
             return parent::getThumbnailUrl($canonical);
         }
@@ -38,7 +38,7 @@ class AttachmentData extends XFCP_AttachmentData
      */
     protected function _getAbstractedThumbnailPath($dataId, $fileHash)
     {
-        if ($this->extension !== 'svg')
+        if (!$this->isSvg())
         {
             return parent::_getAbstractedThumbnailPath($dataId, $fileHash);
         }
@@ -48,5 +48,22 @@ class AttachmentData extends XFCP_AttachmentData
             $dataId,
             $fileHash
         );
+    }
+
+    public function isSvg(): bool
+    {
+        return ($this->thumbnail_width || $this->thumbnail_height) && $this->extension === 'svg';
+    }
+
+    public function getTypeGrouping(): string
+    {
+        $typeGroup = parent::getTypeGrouping();
+
+        if ($this->isSvg() && $typeGroup === 'file')
+        {
+            return 'image';
+        }
+
+        return $typeGroup;
     }
 }
