@@ -5,6 +5,7 @@
 
 namespace SV\AttachmentImprovements\XF\Entity;
 
+use function explode;
 use function sprintf, floor;
 
 class AttachmentData extends XFCP_AttachmentData
@@ -29,6 +30,24 @@ class AttachmentData extends XFCP_AttachmentData
         );
 
         return $this->app()->applyExternalDataUrl($path);
+    }
+
+    public function isRangeRequestSupported(): bool
+    {
+        $path = $this->getAbstractedDataPath();
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        [$prefix, $path] = explode('://', $path, 2);
+        $fs = \XF::fs()->getFilesystem($prefix);
+        if ($fs instanceof \League\Flysystem\Filesystem)
+        {
+            $adapter = $fs->getAdapter();
+            if ($adapter instanceof \XF\LocalFsAdapter)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace SV\AttachmentImprovements\XF\Pub\Controller;
 
 use SV\AttachmentImprovements\RequestUnwrapper;
+use SV\AttachmentImprovements\XF\Entity\AttachmentData;
 use XF\Mvc\ParameterBag;
 use XF\Mvc\Reply\View;
 use function strlen, substr;
@@ -29,11 +30,18 @@ class Attachment extends XFCP_Attachment
             $method = $this->request->getRequestMethod();
             if ($method === 'head' || $method === 'get')
             {
-                $response->setParam('rangeSupport', true);
-                $rangeRequest = $this->request->getServer('HTTP_RANGE');
-                if ($rangeRequest !== false)
+                /** @var \XF\Entity\Attachment $attachment */
+                $attachment = $response->getParam('attachment');
+                /** @var AttachmentData $data */
+                $data = $attachment->Data ?? null;
+                if ($data !== null && $data->isRangeRequestSupported())
                 {
-                    $response->setParam('rangeRequest', $rangeRequest);
+                    $response->setParam('rangeSupport', true);
+                    $rangeRequest = $this->request->getServer('HTTP_RANGE');
+                    if ($rangeRequest !== false)
+                    {
+                        $response->setParam('rangeRequest', $rangeRequest);
+                    }
                 }
             }
         }
