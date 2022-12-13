@@ -15,6 +15,7 @@ use function trim;
 
 trait AttachmentViewTrait
 {
+    /** @noinspection PhpMultipleClassDeclarationsInspection */
     public function renderRaw()
     {
         if (!empty($this->params['return304']))
