@@ -1,1 +1,1 @@
-Strip JEPG EXIF
+Strip JPEG EXIF
