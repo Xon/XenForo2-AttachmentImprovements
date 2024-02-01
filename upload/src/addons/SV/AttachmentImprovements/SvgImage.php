@@ -18,6 +18,11 @@ class SvgImage
     protected $svgData;
 
     /** @var int|null */
+    protected $originalWidth = null;
+    /** @var int|null */
+    protected $originalHeight = null;
+
+    /** @var int|null */
     protected $width = null;
     /** @var int|null */
     protected $height = null;
@@ -159,8 +164,8 @@ class SvgImage
             return;
         }
 
-        $this->width = $this->extractDimension('width');
-        $this->height = $this->extractDimension('height');
+        $this->originalWidth = $this->width = $this->extractDimension('width');
+        $this->originalHeight = $this->height = $this->extractDimension('height');
 
         if ($this->width == 0 || $this->height == 0)
         {
@@ -221,6 +226,8 @@ class SvgImage
         $this->width = $width;
         $this->height = $height;
 
+        $this->svgData['viewBox'] = "0 0 {$this->originalWidth} {$this->originalHeight}";
+        $this->svgData['preserveAspectRatio'] = 'xMidYMid meet';
         $this->svgData['width'] = strval($this->width);
         $this->svgData['height'] = strval($this->height);
     }
