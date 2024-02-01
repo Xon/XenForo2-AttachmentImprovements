@@ -8,6 +8,6 @@
     "advanced": true,
     "default_value": "onfocusin,onfocusout,onactivate,onclick,onmousedown,onmouseup,onmouseover,onmousemove,onmouseout,onload,onunload,onabort,onerror,onresize,onscroll,onzoom,onbegin,onend,onrepeat",
     "relations": {
-        "attachments": 1220
+        "SV_AttachImpro_Debug": 1220
     }
 }
