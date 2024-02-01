@@ -4,6 +4,7 @@ namespace SV\AttachmentImprovements;
 
 use XF\FileWrapper;
 use function func_get_args;
+use function strtolower;
 
 class SvgFileWrapper extends FileWrapper
 {
@@ -72,7 +73,7 @@ class SvgFileWrapper extends FileWrapper
             return;
         }
 
-        if ($this->extension === 'svg')
+        if (strtolower($this->extension) === 'svg')
         {
             $throwOnBadData = (bool)(\XF::options()->SV_RejectAttachmentWithBadTags ?? true);
             $this->svgImage = SvgImage::new($this->filePath, $throwOnBadData);

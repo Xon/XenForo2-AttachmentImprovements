@@ -12,6 +12,7 @@ use XF\Entity\AttachmentData;
 use XF\FileWrapper;
 use XF\Util\File;
 use function is_array;
+use function strtolower;
 
 class Preparer extends XFCP_Preparer
 {
@@ -41,7 +42,7 @@ class Preparer extends XFCP_Preparer
     {
         $this->filename = $file->getFileName();
 
-        if (!$file->isImage() && $file->getExtension() === 'svg' && $this->canUseSvg())
+        if (!$file->isImage() && strtolower($file->getExtension()) === 'svg' && $this->canUseSvg())
         {
             $file = SvgFileWrapper::new($file->getFilePath(), $file->getFileName());
         }

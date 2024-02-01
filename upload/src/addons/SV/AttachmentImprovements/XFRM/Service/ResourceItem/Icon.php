@@ -11,6 +11,7 @@ use SV\AttachmentImprovements\XFRM\Entity\ResourceItem;
 use XF\Http\Upload;
 use XF\Util\File;
 use function is_callable;
+use function strtolower;
 
 /**
  * @extends \XFRM\Service\ResourceItem\Icon
@@ -53,7 +54,7 @@ class Icon extends XFCP_Icon
     public function setSvgImageFromUpload(Upload $upload): bool
     {
         $file = $upload->getFileWrapper();
-        if ($file->getExtension() !== 'svg')
+        if (strtolower($file->getExtension()) !== 'svg')
         {
             return false;
         }

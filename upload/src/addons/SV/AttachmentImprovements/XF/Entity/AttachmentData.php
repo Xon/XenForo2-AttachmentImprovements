@@ -9,6 +9,7 @@ use League\Flysystem\Filesystem as FlyFilesystem;
 use XF\LocalFsAdapter;
 use function explode;
 use function sprintf, floor;
+use function strtolower;
 
 class AttachmentData extends XFCP_AttachmentData
 {
@@ -73,7 +74,7 @@ class AttachmentData extends XFCP_AttachmentData
 
     public function isSvg(): bool
     {
-        if ($this->extension !== 'svg')
+        if (strtolower($this->extension) !== 'svg')
         {
             return false;
         }
