@@ -5,6 +5,7 @@ namespace SV\AttachmentImprovements;
 use XF\PrintableException;
 use XF\Util\Xml;
 use function array_fill_keys, explode, strtolower, strval, array_map, strlen, strrpos, substr;
+use function func_get_args;
 
 class SvgImage
 {
@@ -35,6 +36,15 @@ class SvgImage
     protected $validImage;
     /** @var bool */
     protected $throwOnBadData;
+
+    public static function new(string $svgPath, bool $throwOnBadData = true, array $badTags = null, array $badAttributes = null): self
+    {
+        $class = \XF::extendClass(self::class);
+        /** @var self $obj */
+        $obj = new $class(...func_get_args());
+
+        return $obj;
+    }
 
     public function __construct(string $svgPath, bool $throwOnBadData = true, array $badTags = null, array $badAttributes = null)
     {

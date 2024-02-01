@@ -6,6 +6,7 @@
 namespace SV\AttachmentImprovements;
 
 use XF\Http\ResponseStream;
+use function func_get_args;
 use function strlen, count, fseek, fread;
 
 class PartialResponseStream extends ResponseStream
@@ -17,6 +18,15 @@ class PartialResponseStream extends ResponseStream
     protected $internalContentType;
     /** @var string */
     protected $boundary;
+
+    public static function new($resource, string $internalContentType, string $boundary, array $ranges): self
+    {
+        $class = \XF::extendClass(self::class);
+        /** @var self $obj */
+        $obj = new $class(...func_get_args());
+
+        return $obj;
+    }
 
     public function __construct($resource, string $internalContentType, string $boundary, array $ranges)
     {

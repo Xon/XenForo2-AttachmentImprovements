@@ -3,6 +3,7 @@
 namespace SV\AttachmentImprovements;
 
 use XF\FileWrapper;
+use function func_get_args;
 
 class SvgFileWrapper extends FileWrapper
 {
@@ -10,6 +11,15 @@ class SvgFileWrapper extends FileWrapper
     protected $isSvg = false;
     /** @var SvgImage */
     protected $svgImage = null;
+
+    public static function new(string $filepath, string $filename): self
+    {
+        $class = \XF::extendClass(self::class);
+        /** @var self $obj */
+        $obj = new $class(...func_get_args());
+
+        return $obj;
+    }
 
     /**
      * @return int|string|null
@@ -65,8 +75,7 @@ class SvgFileWrapper extends FileWrapper
         if ($this->extension === 'svg')
         {
             $throwOnBadData = (bool)(\XF::options()->SV_RejectAttachmentWithBadTags ?? true);
-            $class = \XF::extendClass(SvgImage::class);
-            $this->svgImage = new $class($this->filePath, $throwOnBadData);
+            $this->svgImage = SvgImage::new($this->filePath, $throwOnBadData);
             $this->isSvg = $this->svgImage->isValid();
         }
 

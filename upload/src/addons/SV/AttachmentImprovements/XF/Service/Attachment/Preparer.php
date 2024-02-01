@@ -37,10 +37,7 @@ class Preparer extends XFCP_Preparer
 
         if (!$file->isImage() && $file->getExtension() === 'svg')
         {
-            // inject SVG support
-            $class = \XF::extendClass(SvgFileWrapper::class);
-            /** @var SvgFileWrapper $wrapper */
-            $file = new $class($file->getFilePath(), $file->getFileName());
+            $file = SvgFileWrapper::new($file->getFilePath(), $file->getFileName());
         }
         else if ($file->isImage() && $file->getImageType() === IMAGETYPE_JPEG && (\XF::options()->svAttachmentsStripExif ?? true))
         {
@@ -88,10 +85,7 @@ class Preparer extends XFCP_Preparer
         $newTempFile = parent::generateAttachmentThumbnail($sourceFile, $width, $height);
         if ($newTempFile === null)
         {
-            // inject SVG support
-            $class = \XF::extendClass(SvgFileWrapper::class);
-            /** @var SvgFileWrapper $wrapper */
-            $wrapper = new $class($sourceFile, $this->filename);
+            $wrapper = SvgFileWrapper::new($sourceFile, $this->filename);
 
             if ($wrapper->getImageType() !== SvgImage::IMAGETYPE_SVG)
             {

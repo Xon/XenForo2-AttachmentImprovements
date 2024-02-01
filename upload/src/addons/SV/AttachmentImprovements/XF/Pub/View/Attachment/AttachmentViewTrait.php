@@ -147,10 +147,6 @@ trait AttachmentViewTrait
      */
     public function responseStream($resource, string $internalContentType, string $boundary, array $ranges): ResponseStream
     {
-        $class = \XF::extendClass(PartialResponseStream::class);
-        /** @var PartialResponseStream $obj */
-        $obj = new $class($resource, $internalContentType, $boundary, $ranges);
-
-        return $obj;
+        return PartialResponseStream::new($resource, $internalContentType, $boundary, $ranges);
     }
 }
