@@ -1,0 +1,1 @@
+Only allow admins to use SVGs as attachments

@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "preg_replace",
     "find": "#(<xf:upload name=\"upload\" accept=\"[^\"]*)(\")#si",
-    "replace": "$1,.svg$2"
+    "replace": "$1{{ (callable($xf.visitor,'canUseSvg') && $xf.visitor.canUseSvg()) ? ',.svg' : '' }} $2"
 }

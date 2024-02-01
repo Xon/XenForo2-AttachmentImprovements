@@ -33,6 +33,7 @@ namespace SV\AttachmentImprovements\XF\Attachment
 namespace SV\AttachmentImprovements\XF\Entity
 {
 	class XFCP_AttachmentData extends \XF\Entity\AttachmentData {}
+	class XFCP_User extends \XF\Entity\User {}
 }
 
 namespace SV\AttachmentImprovements\XF\Pub\Controller

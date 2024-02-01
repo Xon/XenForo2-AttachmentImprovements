@@ -1,0 +1,1 @@
+Only allow SVGs by admins

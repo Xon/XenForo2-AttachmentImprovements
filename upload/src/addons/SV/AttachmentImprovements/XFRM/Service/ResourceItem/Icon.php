@@ -10,6 +10,7 @@ use SV\AttachmentImprovements\SvgImage;
 use SV\AttachmentImprovements\XFRM\Entity\ResourceItem;
 use XF\Http\Upload;
 use XF\Util\File;
+use function is_callable;
 
 /**
  * @extends \XFRM\Service\ResourceItem\Icon
@@ -23,9 +24,15 @@ class Icon extends XFCP_Icon
     /** @var bool */
     protected $isSvg = false;
 
+    protected function canUseSvg(): bool
+    {
+        $user = \XF::visitor();
+        return is_callable([$user, 'canUseSvg']) && $user->canUseSvg();
+    }
+
     public function setImageFromUpload(Upload $upload)
     {
-        if ($upload->getExtension() === 'svg')
+        if ($upload->getExtension() === 'svg' && $this->canUseSvg())
         {
             return $this->setSvgImageFromUpload($upload);
         }
