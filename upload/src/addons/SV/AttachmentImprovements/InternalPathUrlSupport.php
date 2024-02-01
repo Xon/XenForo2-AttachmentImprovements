@@ -6,7 +6,7 @@ use function explode, preg_match;
 
 abstract class InternalPathUrlSupport
 {
-    public static function convertAbstractFilenameToURL(string $attachmentFile, bool $canonical = false)
+    public static function convertAbstractFilenameToURL(string $attachmentFile, bool $canonical = false): ? string
     {
         list($prefix, $path) = explode('://', $attachmentFile, 2);
         if ($prefix === 'internal-data')
@@ -20,7 +20,7 @@ abstract class InternalPathUrlSupport
         return null;
     }
 
-    public static function applyInternalDataUrl(string $internalPath, bool $canonical = false)
+    public static function applyInternalDataUrl(string $internalPath, bool $canonical = false): string
     {
         $app = \XF::app();
         $internalDataUrl = $app->config('internalDataUrl');

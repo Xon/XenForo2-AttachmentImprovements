@@ -5,6 +5,8 @@
 
 namespace SV\AttachmentImprovements\XF\Attachment;
 
+use XF\Entity\Thread as ThreadEntity;
+
 class Post extends XFCP_Post
 {
     public function getConstraints(array $context)
@@ -21,7 +23,7 @@ class Post extends XFCP_Post
         }
         else if (!empty($context['thread_id']))
         {
-            /** @var \XF\Entity\Thread $thread */
+            /** @var ThreadEntity $thread */
             $thread = $em->find('XF:Thread', $context['thread_id']);
             if ($thread !== null)
             {
@@ -34,7 +36,7 @@ class Post extends XFCP_Post
             $post = $em->find('XF:Post', $context['post_id']);
             if ($post)
             {
-                /** @var \XF\Entity\Thread $thread */
+                /** @var ThreadEntity $thread */
                 $thread = $em->find('XF:Thread', $post->thread_id);
                 if ($thread !== null)
                 {
@@ -52,13 +54,13 @@ class Post extends XFCP_Post
     }
 
     /**
-     * @param array                  $constraints
-     * @param int                    $nodeId
-     * @param \XF\Entity\Thread|null $thread
+     * @param array             $constraints
+     * @param int               $nodeId
+     * @param ThreadEntity|null $thread
      * @return array
      * @noinspection PhpUnusedParameterInspection
      */
-    protected function svUpdateConstraints(array $constraints, int $nodeId, \XF\Entity\Thread $thread = null)
+    protected function svUpdateConstraints(array $constraints, int $nodeId, ThreadEntity $thread = null)
     {
         $visitor = \XF::visitor();
 

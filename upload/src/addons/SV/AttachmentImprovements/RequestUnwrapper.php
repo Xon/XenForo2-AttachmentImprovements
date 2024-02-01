@@ -2,9 +2,11 @@
 
 namespace SV\AttachmentImprovements;
 
-class RequestUnwrapper extends \XF\Http\Request
+use XF\Http\Request;
+
+class RequestUnwrapper extends Request
 {
-    public static function syncServerVar(\XF\Http\Request $request, string $key)
+    public static function syncServerVar(Request $request, string $key): void
     {
         $request->server[$key] = $_SERVER[$key];
     }

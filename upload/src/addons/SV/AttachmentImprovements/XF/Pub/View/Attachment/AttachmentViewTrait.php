@@ -6,6 +6,7 @@ use SV\AttachmentImprovements\PartialResponseStream;
 use SV\AttachmentImprovements\ResponseMultiPart;
 use SV\AttachmentImprovements\SvgResponse;
 use SV\AttachmentImprovements\XF\Entity\AttachmentData;
+use XF\Entity\Attachment as AttachmentEntity;
 use XF\Http\ResponseStream;
 use function count;
 use function explode;
@@ -23,7 +24,7 @@ trait AttachmentViewTrait
             return parent::renderRaw();
         }
 
-        /** @var \XF\Entity\Attachment $attachment */
+        /** @var AttachmentEntity $attachment */
         $attachment = $this->params['attachment'];
         /** @var AttachmentData $data */
         $data = $attachment->Data;

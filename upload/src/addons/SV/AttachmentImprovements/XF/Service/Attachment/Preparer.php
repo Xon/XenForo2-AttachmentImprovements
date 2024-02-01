@@ -6,7 +6,9 @@
 namespace SV\AttachmentImprovements\XF\Service\Attachment;
 
 use SV\AttachmentImprovements\FileWrapperUnwrapper;
+use SV\AttachmentImprovements\SvgFileWrapper;
 use SV\AttachmentImprovements\SvgImage;
+use XF\Entity\AttachmentData;
 use XF\FileWrapper;
 use XF\Util\File;
 use function is_array;
@@ -15,7 +17,7 @@ class Preparer extends XFCP_Preparer
 {
     public $filename = '';
 
-    public function updateDataFromFile(\XF\Entity\AttachmentData $data, FileWrapper $file, array $extra = [])
+    public function updateDataFromFile(AttachmentData $data, FileWrapper $file, array $extra = [])
     {
         $this->filename = $file->getFileName();
 
@@ -26,8 +28,8 @@ class Preparer extends XFCP_Preparer
      * @param FileWrapper $file
      * @param int         $userId
      * @param array       $extra
-     * @return \XF\Entity\AttachmentData
-     * @throws \XF\PrintableException
+     * @return AttachmentData
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public function insertDataFromFile(FileWrapper $file, $userId, array $extra = [])
     {
@@ -36,8 +38,8 @@ class Preparer extends XFCP_Preparer
         if (!$file->isImage() && $file->getExtension() === 'svg')
         {
             // inject SVG support
-            $class = \XF::extendClass(\SV\AttachmentImprovements\SvgFileWrapper::class);
-            /** @var \SV\AttachmentImprovements\SvgFileWrapper $wrapper */
+            $class = \XF::extendClass(SvgFileWrapper::class);
+            /** @var SvgFileWrapper $wrapper */
             $file = new $class($file->getFilePath(), $file->getFileName());
         }
         else if ($file->isImage() && $file->getImageType() === IMAGETYPE_JPEG && (\XF::options()->svAttachmentsStripExif ?? true))
@@ -79,7 +81,7 @@ class Preparer extends XFCP_Preparer
      * @param int|null $width
      * @param int|null $height
      * @return null|string
-     * @throws \XF\PrintableException
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public function generateAttachmentThumbnail($sourceFile, &$width = null, &$height = null)
     {
@@ -87,8 +89,8 @@ class Preparer extends XFCP_Preparer
         if ($newTempFile === null)
         {
             // inject SVG support
-            $class = \XF::extendClass(\SV\AttachmentImprovements\SvgFileWrapper::class);
-            /** @var \SV\AttachmentImprovements\SvgFileWrapper $wrapper */
+            $class = \XF::extendClass(SvgFileWrapper::class);
+            /** @var SvgFileWrapper $wrapper */
             $wrapper = new $class($sourceFile, $this->filename);
 
             if ($wrapper->getImageType() !== SvgImage::IMAGETYPE_SVG)

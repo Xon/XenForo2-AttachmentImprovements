@@ -7,13 +7,14 @@ namespace SV\AttachmentImprovements\XF\Admin\Controller;
 
 use SV\AttachmentImprovements\RequestUnwrapper;
 use XF\Mvc\ParameterBag;
+use XF\Mvc\Reply\AbstractReply;
 use function strlen, substr;
 
 class Attachment extends XFCP_Attachment
 {
     /**
      * @param ParameterBag $params
-     * @return \XF\Mvc\Reply\AbstractReply
+     * @return AbstractReply
      */
     public function actionIndex(ParameterBag $params)
     {

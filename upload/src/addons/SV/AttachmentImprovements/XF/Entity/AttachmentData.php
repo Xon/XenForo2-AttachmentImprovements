@@ -5,6 +5,8 @@
 
 namespace SV\AttachmentImprovements\XF\Entity;
 
+use League\Flysystem\Filesystem as FlyFilesystem;
+use XF\LocalFsAdapter;
 use function explode;
 use function sprintf, floor;
 
@@ -38,10 +40,10 @@ class AttachmentData extends XFCP_AttachmentData
         /** @noinspection PhpUnusedLocalVariableInspection */
         [$prefix, $path] = explode('://', $path, 2);
         $fs = \XF::fs()->getFilesystem($prefix);
-        if ($fs instanceof \League\Flysystem\Filesystem)
+        if ($fs instanceof FlyFilesystem)
         {
             $adapter = $fs->getAdapter();
-            if ($adapter instanceof \XF\LocalFsAdapter)
+            if ($adapter instanceof LocalFsAdapter)
             {
                 return true;
             }

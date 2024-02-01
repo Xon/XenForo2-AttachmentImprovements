@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingParentCallCommonInspection
+ */
 
 namespace SV\AttachmentImprovements;
 
@@ -7,9 +10,7 @@ use function strlen, count, fseek, fread;
 
 class PartialResponseStream extends ResponseStream
 {
-    /**
-     * @var array
-     */
+    /** @var array<array{0:int,1:int}> */
     protected $ranges = [];
 
     /** @var string */
@@ -21,7 +22,7 @@ class PartialResponseStream extends ResponseStream
     {
         if (count($ranges) === 0)
         {
-            throw new \InvalidArgumentException("Must have a set of ranges");
+            throw new \InvalidArgumentException('Must have a set of ranges');
         }
 
         $length = 0;
@@ -86,7 +87,7 @@ class PartialResponseStream extends ResponseStream
         return null;
     }
 
-    public function output()
+    public function output(): void
     {
         if ($this->contents === null)
         {

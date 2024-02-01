@@ -5,6 +5,8 @@ namespace SV\AttachmentImprovements\XF\Pub\Controller;
 use SV\AttachmentImprovements\RequestUnwrapper;
 use SV\AttachmentImprovements\XF\Entity\AttachmentData;
 use XF\Mvc\ParameterBag;
+use XF\Mvc\Reply\AbstractReply;
+use XF\Mvc\Reply\Exception as ExceptionReply;
 use XF\Mvc\Reply\View;
 use function strlen, substr;
 
@@ -12,8 +14,8 @@ class Attachment extends XFCP_Attachment
 {
     /**
      * @param ParameterBag $params
-     * @return \XF\Mvc\Reply\AbstractReply
-     * @throws \XF\Mvc\Reply\Exception
+     * @return AbstractReply
+     * @throws ExceptionReply
      */
     public function actionIndex(ParameterBag $params)
     {

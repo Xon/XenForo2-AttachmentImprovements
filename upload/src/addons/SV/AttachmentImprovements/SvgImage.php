@@ -8,7 +8,7 @@ use function array_fill_keys, explode, strtolower, strval, array_map, strlen, st
 
 class SvgImage
 {
-    const IMAGETYPE_SVG = 'imagetype_svg';
+    public const IMAGETYPE_SVG = 'imagetype_svg';
 
     /** @var string|null */
     protected $svgPath;
@@ -82,7 +82,7 @@ class SvgImage
         return $this->validImage;
     }
 
-    protected function parse()
+    protected function parse(): void
     {
         try
         {
@@ -142,7 +142,7 @@ class SvgImage
         return true;
     }
 
-    protected function parseDimensions()
+    protected function parseDimensions(): void
     {
         if (!$this->validImage)
         {
@@ -201,12 +201,12 @@ class SvgImage
         return $this->svgData;
     }
 
-    public function setSvgData(\SimpleXMLElement $svgData = null)
+    public function setSvgData(\SimpleXMLElement $svgData = null): void
     {
         $this->svgData = $svgData;
     }
 
-    public function resize(int $width, int $height)
+    public function resize(int $width, int $height): void
     {
         $this->width = $width;
         $this->height = $height;

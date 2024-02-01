@@ -6,12 +6,7 @@ use XF\Http\Response;
 
 class ResponseMultiPart extends Response
 {
-    /**
-     * @param Response    $response
-     * @param string      $contentType
-     * @param string|null $charset
-     */
-    public static function contentTypeForced(Response $response, string $contentType, ?string $charset)
+    public static function contentTypeForced(Response $response, string $contentType, ?string $charset): void
     {
         $response->contentType = $contentType;
         if ($charset !== null)

@@ -2,7 +2,9 @@
 
 namespace SV\AttachmentImprovements;
 
-class SvgFileWrapper extends \XF\FileWrapper
+use XF\FileWrapper;
+
+class SvgFileWrapper extends FileWrapper
 {
     /** @var bool */
     protected $isSvg = false;
@@ -51,7 +53,7 @@ class SvgFileWrapper extends \XF\FileWrapper
         return parent::getImageHeight();
     }
 
-    protected function analyzeImage()
+    protected function analyzeImage(): void
     {
         $this->isImage = false;
 
@@ -63,7 +65,7 @@ class SvgFileWrapper extends \XF\FileWrapper
         if ($this->extension === 'svg')
         {
             $throwOnBadData = (bool)(\XF::options()->SV_RejectAttachmentWithBadTags ?? true);
-            $class = \XF::extendClass(\SV\AttachmentImprovements\SvgImage::class);
+            $class = \XF::extendClass(SvgImage::class);
             $this->svgImage = new $class($this->filePath, $throwOnBadData);
             $this->isSvg = $this->svgImage->isValid();
         }

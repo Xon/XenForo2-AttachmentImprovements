@@ -2,15 +2,12 @@
 
 namespace SV\AttachmentImprovements;
 
-class SvgResponse extends \XF\Http\Response
+use XF\Http\Response;
+
+class SvgResponse extends Response
 {
-    /**
-     * @param \XF\Http\Response $response
-     * @param string            $key
-     * @param string            $value
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public static function updateInlineImageTypes(\XF\Http\Response $response, string $key, string $value)
+    /** @noinspection PhpUnusedParameterInspection */
+    public static function updateInlineImageTypes(Response $response, string $key, string $value): void
     {
         $container = \XF::app()->container();
         $inlineImageTypes = $container->offsetGet('inlineImageTypes');
