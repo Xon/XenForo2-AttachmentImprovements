@@ -2,10 +2,16 @@
 
 namespace SV\AttachmentImprovements;
 
+use enshrined\svgSanitize\Sanitizer;
 use XF\PrintableException;
 use XF\Util\Xml;
 use function array_fill_keys, explode, strtolower, strval, array_map, strlen, strrpos, substr;
+use function file_get_contents;
+use function file_put_contents;
 use function func_get_args;
+use function libxml_disable_entity_loader;
+use function libxml_use_internal_errors;
+use function simplexml_import_dom;
 
 class SvgImage
 {
@@ -37,6 +43,12 @@ class SvgImage
     /** @var array */
     protected $badAttributes = [];
 
+    /** @var \XF\Phrase|string */
+    protected $error = null;
+    /**
+     * @var Sanitizer
+     */
+    protected $sanitizer;
     /** @var bool */
     protected $validImage;
     /** @var bool */
@@ -76,9 +88,10 @@ class SvgImage
     {
         if (!$this->validImage)
         {
+            $this->error = \XF::phrase('sv_bad_svg_data');
             if ($this->throwOnBadData)
             {
-                throw new PrintableException(\XF::phrase('sv_bad_svg_data'));
+                throw new PrintableException($this->error);
             }
 
             return [];
@@ -97,25 +110,49 @@ class SvgImage
         return $this->validImage;
     }
 
+    protected function getSvgSanitizer(): Sanitizer
+    {
+        if ($this->sanitizer === null)
+        {
+            $this->sanitizer = new Sanitizer();
+        }
+
+        return $this->sanitizer;
+    }
+
+    protected function logError(?string $phraseKey): void
+    {
+        $this->validImage = false;
+        $this->error = \XF::phrase($phraseKey);
+        if ($this->throwOnBadData)
+        {
+            throw new PrintableException($this->error);
+        }
+    }
+
     protected function parse(): void
     {
-        try
+        $sanitizer = $this->getSvgSanitizer();
+        $sanitizer->removeRemoteReferences(true);
+
+        $contents = file_get_contents($this->svgPath);
+        $sanitized = $sanitizer->sanitize($contents);
+        if ($sanitized === false)
         {
-            $xmlData = Xml::openFile($this->svgPath);
+            $this->logError('could_not_upload_svg_asset_after_sanitization');
+            return;
         }
-        catch (\InvalidArgumentException $e)
+
+        $xmlData = $this->loadXml($sanitized);
+        if ($xmlData === null)
         {
-            \XF::logException($e);
-
-            $this->validImage = false;
-
+            $this->logError('could_not_upload_svg_asset_after_sanitization');
             return;
         }
 
         if (!$this->scanXml($xmlData))
         {
-            $this->validImage = false;
-
+            $this->logError('sv_bad_svg_data');
             return;
         }
 
@@ -123,6 +160,34 @@ class SvgImage
         $this->validImage = true;
 
         $this->parseDimensions();
+    }
+
+    protected function loadXml(string $xml): ?\SimpleXMLElement
+    {
+        $dom = new \DOMDocument();
+        $disableEntityLoader = LIBXML_VERSION < 20900;
+        if ($disableEntityLoader)
+        {
+            $entityLoader = libxml_disable_entity_loader(true);
+        }
+        $internalErrors = libxml_use_internal_errors(true);
+        try
+        {
+            if (!$dom->loadXML($xml))
+            {
+                return null;
+            }
+        }
+        finally
+        {
+            if ($disableEntityLoader)
+            {
+                libxml_disable_entity_loader($entityLoader);
+            }
+            libxml_use_internal_errors($internalErrors);
+        }
+
+        return simplexml_import_dom($dom);
     }
 
     protected function scanXml(\SimpleXMLElement $node): bool
