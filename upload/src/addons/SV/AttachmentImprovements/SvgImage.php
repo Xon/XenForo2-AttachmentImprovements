@@ -226,7 +226,10 @@ class SvgImage
         $this->width = $width;
         $this->height = $height;
 
-        $this->svgData['viewBox'] = "0 0 {$this->originalWidth} {$this->originalHeight}";
+        if (!$this->svgData['viewBox'])
+        {
+            $this->svgData['viewBox'] = "0 0 {$this->originalWidth} {$this->originalHeight}";
+        }
         $this->svgData['preserveAspectRatio'] = 'xMidYMid meet';
         $this->svgData['width'] = strval($this->width);
         $this->svgData['height'] = strval($this->height);
