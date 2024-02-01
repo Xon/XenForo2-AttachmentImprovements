@@ -4,6 +4,11 @@
 // ################## THIS IS A GENERATED FILE ##################
 // DO NOT EDIT DIRECTLY. EDIT THE CLASS EXTENSIONS IN THE CONTROL PANEL.
 
+namespace SV\AttachmentImprovements\XFRM\Entity
+{
+	class XFCP_ResourceItem extends \XFRM\Entity\ResourceItem {}
+}
+
 namespace SV\AttachmentImprovements\XFRM\Service\ResourceItem
 {
 	class XFCP_Icon extends \XFRM\Service\ResourceItem\Icon {}

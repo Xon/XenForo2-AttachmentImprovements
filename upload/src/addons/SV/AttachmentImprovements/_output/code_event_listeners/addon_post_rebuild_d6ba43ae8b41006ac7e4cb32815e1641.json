@@ -1,0 +1,9 @@
+{
+    "event_id": "addon_post_rebuild",
+    "execute_order": 6812,
+    "callback_class": "SV\\AttachmentImprovements\\InstallerListener",
+    "callback_method": "addonPostRebuild",
+    "active": true,
+    "hint": "",
+    "description": "Extend other add-ons as required."
+}

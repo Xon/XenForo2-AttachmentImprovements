@@ -1,25 +1,28 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\AttachmentImprovements\XFRM\Service\ResourceItem;
 
-
-
 use SV\AttachmentImprovements\SvgFileWrapper;
 use SV\AttachmentImprovements\SvgImage;
+use SV\AttachmentImprovements\XFRM\Entity\ResourceItem;
 use XF\Http\Upload;
 use XF\Util\File;
-use function reset;
 
 /**
  * @extends \XFRM\Service\ResourceItem\Icon
+ *
+ * @property ResourceItem $resource
  */
 class Icon extends XFCP_Icon
 {
     /** @var string|null  */
     protected $uploadedFileName = null;
+    /** @var bool */
     protected $isSvg = false;
 
-    /** @noinspection PhpMissingReturnTypeInspection */
     public function setImageFromUpload(Upload $upload)
     {
         if ($upload->getExtension() === 'svg')
@@ -100,5 +103,7 @@ class Icon extends XFCP_Icon
                 $this->fileName = $newTempFile;
             }
         }
+
+        $this->resource->icon_ext = 'svg';
     }
 }

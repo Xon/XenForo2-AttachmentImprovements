@@ -1,0 +1,6 @@
+{
+    "from_class": "XFRM\\Entity\\ResourceItem",
+    "to_class": "SV\\AttachmentImprovements\\XFRM\\Entity\\ResourceItem",
+    "execute_order": 6629,
+    "active": true
+}
