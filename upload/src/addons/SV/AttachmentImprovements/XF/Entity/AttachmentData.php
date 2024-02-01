@@ -73,9 +73,22 @@ class AttachmentData extends XFCP_AttachmentData
 
     public function isSvg(): bool
     {
-        return (\XF::options()->svAllowInlineDisplayOfSvgAttachments ?? true) &&
-               ($this->thumbnail_width || $this->thumbnail_height) &&
-               $this->extension === 'svg';
+        if ($this->extension !== 'svg')
+        {
+            return false;
+        }
+
+        if ($this->thumbnail_width === 0 || $this->thumbnail_height === 0)
+        {
+            return false;
+        }
+
+        if (!(\XF::options()->svAllowInlineDisplayOfSvgAttachments ?? true))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public function getTypeGrouping(): string
