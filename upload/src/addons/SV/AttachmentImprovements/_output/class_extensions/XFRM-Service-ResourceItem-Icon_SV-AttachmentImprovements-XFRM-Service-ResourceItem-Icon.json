@@ -1,0 +1,6 @@
+{
+    "from_class": "XFRM\\Service\\ResourceItem\\Icon",
+    "to_class": "SV\\AttachmentImprovements\\XFRM\\Service\\ResourceItem\\Icon",
+    "execute_order": 6629,
+    "active": true
+}
