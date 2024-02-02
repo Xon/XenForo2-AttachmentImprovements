@@ -26,6 +26,10 @@ class Setup extends AbstractSetup
         $this->applySchema();
     }
 
+    public function upgrade1706839809Step1(): void
+    {
+        $this->applySchema();
+    }
 
     public function uninstallStep1(): void
     {
