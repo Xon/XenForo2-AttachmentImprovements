@@ -1,10 +1,10 @@
 var SV = window.SV || {};
-(function ($) {
+(function ( document) {
     SV.attachmentHoverUi = function(editor) {
-        var dropzoneCounter = 0;
-        var template = '';
+        let dropzoneCounter = 0;
+        let template = '';
         function skipDragOperation(e) {
-            var c = e.originalEvent.dataTransfer;
+            let c = e.originalEvent.dataTransfer;
             if (!c.types || 1 !== c.types.length || "Files" !== c.types[0] || c.dropEffect === 'none') {
                 return true;
             }
@@ -19,14 +19,18 @@ var SV = window.SV || {};
             }
             dropzoneCounter++;
             if (dropzoneCounter === 1) {
-                var $container = $(e.originalEvent.target).closest('.fr-box');
-                $container.addClass('dragover');
+                let container = e.originalEvent.target.closest('.fr-box');
+                container.classList.add('dragover');
 
                 if (template !== '') {
-                    var $hoverZone = $container.find('.dropzone-hover');
-                    if ($hoverZone.length === 0) {
-                        XF.setupHtmlInsert(template, function ($html) {
-                            $(editor.$wp).append($html);
+                    let hoverZone = container.querySelector(':scope .dropzone-hover');
+                    if (!hoverZone) {
+                        XF.setupHtmlInsert(template, function (html) {
+                            if (XF.FE) {
+                                editor.$wp.append(html);
+                            } else {
+                                jQuery(editor.$wp).append(html);
+                            }
                         });
                     }
                 }
@@ -49,14 +53,20 @@ var SV = window.SV || {};
         }
         function dragdrop(e) {
             dropzoneCounter = 0;
-            var $container = $(e.originalEvent.target).closest('.fr-box');
-            $container.closest('.fr-box').removeClass('dragover');
+            let container = e.originalEvent.target.closest('.fr-box');
+            container.closest('.fr-box').classList.remove('dragover');
             // remove rather than hide, as this prevents XF's html => bb-code parser getting confused. and also the editor itself
-            $container.find('.dropzone-hover').remove();
+            let hoverZone = container.querySelector(':scope .dropzone-hover');
+            if (hoverZone) {
+                hoverZone.remove();
+            }
         }
         return {
             _init: function() {
-                template = $('.js-attachmentDragHoverTemplate').html() || '';
+                let templateElement = document.querySelector('.js-attachmentDragHoverTemplate');
+                if (templateElement) {
+                    template = templateElement.innerHTML || '';
+                }
                 // the draggable plugin forces 'move' rather than 'copy' which behaves very badly with some source programs
                 editor.events.on("dragenter", dragenter);
                 editor.events.on("dragover", dragover);
@@ -69,6 +79,12 @@ var SV = window.SV || {};
     };
 
     $(document).on('editor:first-start', function() {
-        $.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
+        if (XF.FE) {
+            // XF2.3+
+            XF.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
+        } else {
+            // XF2.2
+            $.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
+        }
     });
-})(jQuery);
+})(document);
