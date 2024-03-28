@@ -12,7 +12,7 @@ abstract class InstallerListener
 {
     protected static function applySchema(AddOn $addOn): void
     {
-        if (Setup::$supportedAddOns[$addOn->getAddOnId()] ?? false)
+        if (!(Setup::$supportedAddOns[$addOn->getAddOnId()] ?? false))
         {
             return;
         }
