@@ -78,13 +78,16 @@ var SV = window.SV || {};
         }
     };
 
-    $(document).on('editor:first-start', function() {
-        if (XF.FE) {
-            // XF2.3+
+    if (XF.FE) {
+        // XF2.3+
+        XF.on(document, 'editor:first-start', function() {
             XF.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
-        } else {
-            // XF2.2
+        });
+    } else {
+        // XF2.2
+        $(document).on('editor:first-start', function() {
             $.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
-        }
-    });
+        });
+    }
+
 })(document);
