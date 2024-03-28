@@ -54,7 +54,7 @@ class SvgImage
     /** @var bool */
     protected $throwOnBadData;
 
-    public static function new(string $svgPath, bool $throwOnBadData = true, array $badTags = null, array $badAttributes = null): self
+    public static function new(string $svgPath, bool $throwOnBadData = true, ?array $badTags = null, ?array $badAttributes = null): self
     {
         $class = \XF::extendClass(self::class);
         /** @var self $obj */
@@ -63,7 +63,7 @@ class SvgImage
         return $obj;
     }
 
-    public function __construct(string $svgPath, bool $throwOnBadData = true, array $badTags = null, array $badAttributes = null)
+    public function __construct(string $svgPath, bool $throwOnBadData = true, ?array $badTags = null, ?array $badAttributes = null)
     {
         $this->svgPath = $svgPath;
         $this->throwOnBadData = $throwOnBadData;
@@ -281,7 +281,7 @@ class SvgImage
         return $this->svgData;
     }
 
-    public function setSvgData(\SimpleXMLElement $svgData = null): void
+    public function setSvgData(?\SimpleXMLElement $svgData = null): void
     {
         $this->svgData = $svgData;
     }
