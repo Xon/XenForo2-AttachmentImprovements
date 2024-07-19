@@ -5,11 +5,8 @@
 
 namespace SV\AttachmentImprovements\XFRM\Entity;
 
-use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Structure;
-use function floor;
 use function preg_replace;
-use function sprintf;
 
 /**
  * @extends \XFRM\Entity\ResourceItem

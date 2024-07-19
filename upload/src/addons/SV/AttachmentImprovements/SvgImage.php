@@ -3,11 +3,10 @@
 namespace SV\AttachmentImprovements;
 
 use enshrined\svgSanitize\Sanitizer;
+use XF\Phrase;
 use XF\PrintableException;
-use XF\Util\Xml;
 use function array_fill_keys, explode, strtolower, strval, array_map, strlen, strrpos, substr;
 use function file_get_contents;
-use function file_put_contents;
 use function func_get_args;
 use function libxml_disable_entity_loader;
 use function libxml_use_internal_errors;
@@ -43,7 +42,7 @@ class SvgImage
     /** @var array */
     protected $badAttributes = [];
 
-    /** @var \XF\Phrase|string */
+    /** @var Phrase|string */
     protected $error = null;
     /**
      * @var Sanitizer
