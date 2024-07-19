@@ -1,5 +1,11 @@
 var SV = window.SV || {};
+// XF22 compat shim
+SV.$ = SV.$ || window.jQuery || null;
+
 (function ( document) {
+    "use strict";
+    // XF2.2 compat
+    var $ = SV.$;
     SV.attachmentHoverUi = function(editor) {
         let dropzoneCounter = 0;
         let template = '';
@@ -29,7 +35,7 @@ var SV = window.SV || {};
                             if (XF.FE) {
                                 editor.$wp.append(html);
                             } else {
-                                jQuery(editor.$wp).append(html);
+                                $(editor.$wp).append(html);
                             }
                         });
                     }
@@ -78,15 +84,13 @@ var SV = window.SV || {};
         }
     };
 
-    if (XF.FE) {
-        // XF2.3+
-        XF.on(document, 'editor:first-start', function() {
-            XF.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
-        });
-    } else {
-        // XF2.2
+    if (typeof XF.on !== "function") { // XF 2.2
         $(document).on('editor:first-start', function() {
             $.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
+        });
+    } else {
+        XF.on(document, 'editor:first-start', function() {
+            XF.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
         });
     }
 
