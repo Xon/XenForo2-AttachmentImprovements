@@ -26,6 +26,9 @@ SV.$ = SV.$ || window.jQuery || null;
             dropzoneCounter++;
             if (dropzoneCounter === 1) {
                 let container = e.originalEvent.target.closest('.fr-box');
+                if (!container) {
+                    return;
+                }
                 container.classList.add('dragover');
 
                 if (template !== '') {
@@ -60,7 +63,13 @@ SV.$ = SV.$ || window.jQuery || null;
         function dragdrop(e) {
             dropzoneCounter = 0;
             let container = e.originalEvent.target.closest('.fr-box');
-            container.closest('.fr-box').classList.remove('dragover');
+            if (!container) {
+                return;
+            }
+            let editorBox = container.closest('.fr-box');
+            if (editorBox) {
+                editorBox.classList.remove('dragover');
+            }
             // remove rather than hide, as this prevents XF's html => bb-code parser getting confused. and also the editor itself
             let hoverZone = container.querySelector(':scope .dropzone-hover');
             if (hoverZone) {
