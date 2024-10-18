@@ -10,6 +10,9 @@ use XF\Mvc\Reply\Exception as ExceptionReply;
 use XF\Mvc\Reply\View;
 use function strlen, substr;
 
+/**
+ * @extends \XF\Pub\Controller\Attachment
+ */
 class Attachment extends XFCP_Attachment
 {
     /**

@@ -7,6 +7,9 @@ namespace SV\AttachmentImprovements\XF\Attachment;
 
 use XF\Entity\Thread as ThreadEntity;
 
+/**
+ * @extends \XF\Attachment\Post
+ */
 class Post extends XFCP_Post
 {
     public function getConstraints(array $context)

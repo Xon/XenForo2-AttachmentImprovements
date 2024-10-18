@@ -5,6 +5,9 @@
 
 namespace SV\AttachmentImprovements\XF\Attachment;
 
+/**
+ * @extends \XF\Attachment\ConversationMessage
+ */
 class ConversationMessage extends XFCP_ConversationMessage
 {
     /** @noinspection PhpUnnecessaryLocalVariableInspection */

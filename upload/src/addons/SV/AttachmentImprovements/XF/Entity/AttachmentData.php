@@ -11,6 +11,9 @@ use function explode;
 use function sprintf, floor;
 use function strtolower;
 
+/**
+ * @extends \XF\Entity\AttachmentData
+ */
 class AttachmentData extends XFCP_AttachmentData
 {
     /**

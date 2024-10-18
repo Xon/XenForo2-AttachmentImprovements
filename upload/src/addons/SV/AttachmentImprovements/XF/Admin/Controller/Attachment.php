@@ -10,6 +10,9 @@ use XF\Mvc\ParameterBag;
 use XF\Mvc\Reply\AbstractReply;
 use function strlen, substr;
 
+/**
+ * @extends \XF\Admin\Controller\Attachment
+ */
 class Attachment extends XFCP_Attachment
 {
     /**

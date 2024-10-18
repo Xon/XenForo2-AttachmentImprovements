@@ -14,6 +14,9 @@ use XF\Util\File;
 use function is_array;
 use function strtolower;
 
+/**
+ * @extends \XF\Service\Attachment\Preparer
+ */
 class Preparer extends XFCP_Preparer
 {
     public $filename = '';
