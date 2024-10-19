@@ -243,7 +243,7 @@ class SvgImage
 
         if ($this->width > 0 && $this->height > 0)
         {
-            $thumbnailDimensions = \XF::options()->attachmentThumbnailDimensions;
+            $thumbnailDimensions = (int)\XF::options()->attachmentThumbnailDimensions;
             $aspectRatio = $this->width / $this->height;
 
             if ($this->width > $this->height && $this->width > $thumbnailDimensions)
@@ -255,6 +255,12 @@ class SvgImage
             {
                 $this->thumbnailHeight = $thumbnailDimensions;
                 $this->thumbnailWidth = (int)($thumbnailDimensions * $aspectRatio);
+            }
+            else
+            {
+                // just re-use the full image
+                $this->thumbnailWidth = $this->width;
+                $this->thumbnailHeight = $this->height;
             }
         }
     }
