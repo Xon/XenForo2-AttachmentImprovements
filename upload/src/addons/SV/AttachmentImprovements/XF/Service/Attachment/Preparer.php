@@ -120,4 +120,18 @@ class Preparer extends XFCP_Preparer
 
         return $newTempFile;
     }
+
+    // XF2.3+
+    public function optimizeExistingAttachment(AttachmentData $data): void
+    {
+        if (\XF::options()->imageOptimization !== 'optimize' && strtolower($data->extension) === 'svg')
+        {
+            $data->optimized = true;
+            $data->saveIfChanged();
+
+            return;
+        }
+
+        parent::optimizeExistingAttachment($data);
+    }
 }

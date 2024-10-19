@@ -30,12 +30,22 @@ class ResourceItem extends XFCP_ResourceItem
     {
         $path = parent::getIconUrl($sizeCode, $canonical);
 
-        if ($this->icon_ext !== null &&  $path !== null)
+        if ($this->icon_ext !== null && $path !== null)
         {
             $path = preg_replace('#\.jpg(\?\d+)$#', '.' . $this->icon_ext . '$1', $path, 1);
         }
 
         return $path;
+    }
+
+    protected function _preSave()
+    {
+        if (\XF::$versionId >= 2030000 && $this->icon_ext === 'svg')
+        {
+            $this->icon_optimized = true;
+        }
+
+        parent::_preSave();
     }
 
     /**

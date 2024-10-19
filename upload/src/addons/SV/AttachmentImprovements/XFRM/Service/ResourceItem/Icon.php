@@ -163,4 +163,18 @@ class Icon extends XFCP_Icon
 
         return true;
     }
+
+    // XF2.3+
+    public function optimizeExistingIcon(): void
+    {
+        if (\XF::options()->imageOptimization !== 'optimize' &&  $this->type === SvgImage::IMAGETYPE_SVG)
+        {
+            $this->resource->icon_optimized = true;
+            $this->resource->saveIfChanged();
+
+            return;
+        }
+
+        parent::optimizeExistingIcon();
+    }
 }
