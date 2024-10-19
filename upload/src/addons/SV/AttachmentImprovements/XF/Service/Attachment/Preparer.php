@@ -28,12 +28,6 @@ class Preparer extends XFCP_Preparer
         return parent::updateDataFromFile($data, $file, $extra);
     }
 
-    protected function canUseSvg(): bool
-    {
-        $user = \XF::visitor();
-        return is_callable([$user, 'canUseSvg']) && $user->canUseSvg();
-    }
-
     /**
      * @param FileWrapper $file
      * @param int         $userId
@@ -45,11 +39,7 @@ class Preparer extends XFCP_Preparer
     {
         $this->filename = $file->getFileName();
 
-        if (!$file->isImage() && strtolower($file->getExtension()) === 'svg' && $this->canUseSvg())
-        {
-            $file = SvgFileWrapper::new($file->getFilePath(), $file->getFileName());
-        }
-        else if ($file->isImage() && $file->getImageType() === IMAGETYPE_JPEG && (\XF::options()->svAttachmentsStripExif ?? true))
+        if ($file->isImage() && $file->getImageType() === IMAGETYPE_JPEG && (\XF::options()->svAttachmentsStripExif ?? true))
         {
             // force a re-read of EXIF data
             FileWrapperUnwrapper::resetExifCache($file);
@@ -97,7 +87,7 @@ class Preparer extends XFCP_Preparer
         {
             $wrapper = SvgFileWrapper::new($sourceFile, $this->filename);
 
-            if ($wrapper->getImageType() !== SvgImage::IMAGETYPE_SVG)
+            if (!$wrapper->isSvgImage())
             {
                 return null;
             }

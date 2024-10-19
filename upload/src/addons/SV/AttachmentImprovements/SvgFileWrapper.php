@@ -22,12 +22,17 @@ class SvgFileWrapper extends FileWrapper
         return $obj;
     }
 
+    public function isSvgImage(): bool
+    {
+        return $this->isImage() && $this->isSvg;
+    }
+
     /**
      * @return int|string|null
      */
     public function getImageType()
     {
-        if ($this->isImage() && $this->isSvg)
+        if ($this->isSvgImage())
         {
             return SvgImage::IMAGETYPE_SVG;
         }
@@ -37,12 +42,12 @@ class SvgFileWrapper extends FileWrapper
 
     public function getImageData(): ?SvgImage
     {
-        return $this->isImage() && $this->isSvg ? $this->svgImage : null;
+        return $this->isSvgImage() ? $this->svgImage : null;
     }
 
     public function getImageWidth(): int
     {
-        if ($this->isImage() && $this->isSvg)
+        if ($this->isSvgImage())
         {
             $dimensions = $this->svgImage->getDimensions();
 
@@ -54,7 +59,7 @@ class SvgFileWrapper extends FileWrapper
 
     public function getImageHeight(): int
     {
-        if ($this->isImage() && $this->isSvg)
+        if ($this->isSvgImage())
         {
             $dimensions = $this->svgImage->getDimensions();
 

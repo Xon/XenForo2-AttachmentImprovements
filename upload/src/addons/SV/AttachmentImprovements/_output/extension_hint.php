@@ -36,6 +36,11 @@ namespace SV\AttachmentImprovements\XF\Entity
 	class XFCP_User extends \XF\Entity\User {}
 }
 
+namespace SV\AttachmentImprovements\XF\Http
+{
+	class XFCP_Upload extends \XF\Http\Upload {}
+}
+
 namespace SV\AttachmentImprovements\XF\Pub\Controller
 {
 	class XFCP_Attachment extends \XF\Pub\Controller\Attachment {}
