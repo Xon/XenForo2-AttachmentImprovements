@@ -29,10 +29,26 @@ class AttachmentData extends XFCP_AttachmentData
 
         $dataId = $this->data_id;
 
-        $path = sprintf('attachments/%d/%d-%s.svg',
+        if (\XF::$versionId < 2030000)
+        {
+            $path = sprintf('attachments/%d/%d-%s.svg',
+                floor($dataId / 1000),
+                $dataId,
+                $this->file_hash
+            );
+            return $this->app()->applyExternalDataUrl($path);
+        }
+
+        $hash = base64_encode(hex2bin($this->file_hash));
+        $hash = strtr($hash, '+/', '-_');
+        $hash = substr($hash, 0, 10);
+
+        $path = sprintf(
+            'attachments/%d/%d-%s.svg?hash=%s',
             floor($dataId / 1000),
             $dataId,
-            $this->file_hash
+            $this->file_key,
+            $hash
         );
 
         return $this->app()->applyExternalDataUrl($path);
@@ -68,7 +84,17 @@ class AttachmentData extends XFCP_AttachmentData
             return parent::_getAbstractedThumbnailPath($dataId, $fileHash);
         }
 
-        return sprintf('data://attachments/%d/%d-%s.svg',
+        if (\XF::$versionId < 2030000)
+        {
+            return sprintf('data://attachments/%d/%d-%s.svg',
+                floor($dataId / 1000),
+                $dataId,
+                $fileHash
+            );
+        }
+
+        return sprintf(
+            'data://attachments/%d/%d-%s.svg',
             floor($dataId / 1000),
             $dataId,
             $fileHash

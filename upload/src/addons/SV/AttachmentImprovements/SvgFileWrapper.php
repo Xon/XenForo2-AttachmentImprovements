@@ -93,6 +93,10 @@ class SvgFileWrapper extends FileWrapper
         else
         {
             $this->isImage = true;
+            if (\XF::$versionId >= 2030000)
+            {
+                $this->isOptimized = true;
+            }
         }
     }
 }
