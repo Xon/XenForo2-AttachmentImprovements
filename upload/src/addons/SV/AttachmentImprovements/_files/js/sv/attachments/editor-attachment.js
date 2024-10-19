@@ -1,3 +1,4 @@
+// noinspection ES6ConvertVarToLetConst
 var SV = window.SV || {};
 // XF22 compat shim
 SV.$ = SV.$ || window.jQuery || null;

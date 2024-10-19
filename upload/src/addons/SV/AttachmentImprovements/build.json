@@ -2,7 +2,5 @@
   "additional_files": [
     "js/sv/attachments"
   ],
-  "minify": [
-    "js/sv/attachments/editor-attachment.js"
-  ]
+  "minify": "*"
 }

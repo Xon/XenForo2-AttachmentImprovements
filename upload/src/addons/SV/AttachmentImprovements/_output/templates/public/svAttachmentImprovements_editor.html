@@ -1,5 +1,8 @@
 <xf:css src="svAttachmentImprovements_editor.less" />
 <xf:js addon="SV/AttachmentImprovements" src="sv/attachments/editor-attachment.js" min="1" />
+<xf:if is="$xf.versionId >= 2030000 && callable($xf.visitor,'canUseSvg') && $xf.visitor.canUseSvg()">
+<xf:js addon="SV/AttachmentImprovements" src="sv/attachments/attachment-svg.js" min="1" />
+</xf:if>
 <script type="text/template" class="js-attachmentDragHoverTemplate">
 <div class="dropzone-hover"><xf:fa icon="fal fa-file-import" /></div>
 </script>
