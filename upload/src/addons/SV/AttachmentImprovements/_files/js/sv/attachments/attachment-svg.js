@@ -1,7 +1,7 @@
 (function ( ) {
     "use strict";
-    const oldResize  = XF.ImageTools.resize;
-    XF.ImageTools.resize =  function(file, maxWidth, maxHeight, asType) {
+    const oldResize  = XF.ImageTools.resize.bind(XF.ImageTools);
+    XF.ImageTools.resize = function(file, maxWidth, maxHeight, asType) {
         if (file.type === 'image/svg+xml') {
             return new Promise((resolve, reject) =>
             {
