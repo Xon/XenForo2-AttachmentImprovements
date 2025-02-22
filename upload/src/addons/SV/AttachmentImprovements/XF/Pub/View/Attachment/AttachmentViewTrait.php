@@ -60,7 +60,7 @@ trait AttachmentViewTrait
             $rangeRequest = isset($this->params['rangeRequest']) ? \strtolower($this->params['rangeRequest']) : null;
             if ($rangeRequest !== null)
             {
-                $chunkSize = 1024 * (int)($options->svPartialContentChunkSize ?? 0);
+                $chunkSize = 1024 * ($options->svPartialContentChunkSize ?? 0);
                 if (!preg_match('/^bytes\s*=\s*(\d+\s*-\s*(?:\d+|))\s*(?:\s*,\s*(\d+\s*-\s*\d+)\s*)*\s*$/', $rangeRequest, $matches))
                 {
                     $this->response

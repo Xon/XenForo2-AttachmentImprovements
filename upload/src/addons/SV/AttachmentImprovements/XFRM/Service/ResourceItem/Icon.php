@@ -11,8 +11,6 @@ use SV\AttachmentImprovements\XF\Http\Upload as ExtendedUpload;
 use SV\AttachmentImprovements\XFRM\Entity\ResourceItem;
 use XF\Http\Upload;
 use XF\Util\File;
-use function is_callable;
-use function strtolower;
 
 /**
  * @extends \XFRM\Service\ResourceItem\Icon
@@ -144,7 +142,7 @@ class Icon extends XFCP_Icon
 
         if (!$outputFile)
         {
-            throw new \RuntimeException("Failed to save image to temporary file; check internal_data/data permissions");
+            throw new \RuntimeException('Failed to save image to temporary file; check internal_data/data permissions');
         }
 
         $this->resource->icon_ext = 'svg';

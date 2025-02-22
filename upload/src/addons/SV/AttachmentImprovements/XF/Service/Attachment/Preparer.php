@@ -7,7 +7,6 @@ namespace SV\AttachmentImprovements\XF\Service\Attachment;
 
 use SV\AttachmentImprovements\FileWrapperUnwrapper;
 use SV\AttachmentImprovements\SvgFileWrapper;
-use SV\AttachmentImprovements\SvgImage;
 use XF\Entity\AttachmentData;
 use XF\FileWrapper;
 use XF\Util\File;
