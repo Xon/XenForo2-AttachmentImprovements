@@ -74,30 +74,20 @@ class AttachmentData extends XFCP_AttachmentData
 
     /**
      * @param string $dataId
-     * @param string $fileHash
+     * @param string $fileKey
      * @return string
      */
-    protected function _getAbstractedThumbnailPath($dataId, $fileHash)
+    protected function _getAbstractedThumbnailPath($dataId, $fileKey)
     {
         if (!$this->isSvg())
         {
-            return parent::_getAbstractedThumbnailPath($dataId, $fileHash);
+            return parent::_getAbstractedThumbnailPath($dataId, $fileKey);
         }
 
-        if (\XF::$versionId < 2030000)
-        {
-            return sprintf('data://attachments/%d/%d-%s.svg',
-                floor($dataId / 1000),
-                $dataId,
-                $fileHash
-            );
-        }
-
-        return sprintf(
-            'data://attachments/%d/%d-%s.svg',
+        return sprintf('data://attachments/%d/%d-%s.svg',
             floor($dataId / 1000),
             $dataId,
-            $fileHash
+            $fileKey
         );
     }
 
