@@ -12,6 +12,7 @@ use function count;
 use function explode;
 use function md5;
 use function preg_match;
+use function stream_get_meta_data;
 use function trim;
 
 trait AttachmentViewTrait
@@ -69,9 +70,21 @@ trait AttachmentViewTrait
 
                     return '';
                 }
-                unset($matches[0]);
-                $ranges = [];
 
+                $resource = \XF::fs()->readStream($attachment->Data->getAbstractedDataPath());
+                $metaData = $resource ? stream_get_meta_data($resource) : null;
+                if (!($metaData['seekable'] ?? false))
+                {
+                    $this->response
+                        ->setAttachmentFileParams($attachment->filename, $attachment->extension)
+                        ->header('ETag', '"' . $attachment->attach_date . '"');
+
+                    return $this->response->responseStream($resource, $attachment->file_size);
+                }
+
+                unset($matches[0]);
+
+                $ranges = [];
                 $fileSize = $attachment->file_size - 1;
                 foreach ($matches as $range)
                 {
@@ -126,8 +139,6 @@ trait AttachmentViewTrait
                     $this->response
                         ->header('Content-Range', "bytes {$range[0]}-{$range[1]}/{$attachment->file_size}");
                 }
-
-                $resource = \XF::fs()->readStream($attachment->Data->getAbstractedDataPath());
 
                 return $this->responseStream($resource, $internalContentType, $boundary, $ranges);
             }
