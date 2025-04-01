@@ -31,6 +31,20 @@ class Setup extends AbstractSetup
         $this->applySchema();
     }
 
+    public function upgrade1743549505Step1(): void
+    {
+        if (!$this->tableExists('xf_rm_resource'))
+        {
+            return;
+        }
+
+        \XF::db()->query('
+            UPDATE xf_rm_resource
+            SET icon_ext = NULL
+            WHERE icon_ext = \'\'
+        ');
+    }
+
     public function uninstallStep1(): void
     {
         $sm = $this->schemaManager();

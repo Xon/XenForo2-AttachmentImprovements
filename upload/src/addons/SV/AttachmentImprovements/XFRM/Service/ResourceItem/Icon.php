@@ -82,7 +82,7 @@ class Icon extends XFCP_Icon
         }
 
         // ensure the icon isn't treated as a svg
-        $this->resource->icon_ext = '';
+        $this->resource->icon_ext = null;
 
         return parent::setImage($fileName);
     }

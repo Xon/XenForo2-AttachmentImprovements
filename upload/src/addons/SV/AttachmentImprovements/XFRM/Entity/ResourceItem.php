@@ -45,6 +45,11 @@ class ResourceItem extends XFCP_ResourceItem
             $this->icon_optimized = true;
         }
 
+        if ($this->icon_ext === '')
+        {
+            $this->icon_ext = null;
+        }
+
         parent::_preSave();
     }
 
@@ -56,7 +61,7 @@ class ResourceItem extends XFCP_ResourceItem
     {
         $structure = parent::getStructure($structure);
 
-        $structure->columns['icon_ext'] = ['type' => self::STR, 'maxLength' => 4, 'nullable' => true, 'default' => null];
+        $structure->columns['icon_ext'] = ['type' => self::STR, 'maxLength' => 5, 'nullable' => true, 'default' => null];
     
         return $structure;
     }
