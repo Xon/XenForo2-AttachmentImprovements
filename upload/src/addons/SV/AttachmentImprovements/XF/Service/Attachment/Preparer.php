@@ -7,6 +7,8 @@ namespace SV\AttachmentImprovements\XF\Service\Attachment;
 
 use SV\AttachmentImprovements\FileWrapperUnwrapper;
 use SV\AttachmentImprovements\SvgFileWrapper;
+use SV\AttachmentImprovements\SvgImage;
+use SV\AttachmentImprovements\Util\ImageManager;
 use XF\Entity\AttachmentData;
 use XF\FileWrapper;
 use XF\Util\File;
@@ -69,7 +71,25 @@ class Preparer extends XFCP_Preparer
             FileWrapperUnwrapper::resetExifCache($file);
         }
 
-        return parent::insertDataFromFile($file, $userId, $extra);
+        $isSvg = $file->isImage() && $file->getImageType() === SvgImage::IMAGETYPE_SVG;
+        if ($isSvg)
+        {
+            $imageManager = \XF::app()->imageManager();
+            $oldMaxPixels = ImageManager::getMaxResizePixels($imageManager);
+            // Can't use null; XF Bug: https://xenforo.com/community/threads/xf-image-manager-canresize-has-a-bugged-check.234911/
+            $imageManager->setMaxResizePixels($file->getImageWidth() * $file->getImageHeight());
+        }
+        try
+        {
+            return parent::insertDataFromFile($file, $userId, $extra);
+        }
+        finally
+        {
+            if ($isSvg)
+            {
+                $imageManager->setMaxResizePixels($oldMaxPixels);
+            }
+        }
     }
 
     /**
