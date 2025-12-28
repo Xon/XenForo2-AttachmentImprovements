@@ -80,7 +80,7 @@ class SvgFileWrapper extends FileWrapper
 
         if (strtolower($this->extension) === 'svg')
         {
-            $throwOnBadData = (bool)(\XF::options()->SV_RejectAttachmentWithBadTags ?? true);
+            $throwOnBadData = \XF::options()->SV_RejectAttachmentWithBadTags ?? true;
             $this->svgImage = SvgImage::new($this->filePath, $throwOnBadData);
             $this->isSvg = $this->svgImage->isValid();
         }
