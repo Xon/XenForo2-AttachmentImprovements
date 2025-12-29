@@ -2,9 +2,11 @@
 
 namespace SV\AttachmentImprovements\Util;
 
-abstract class ImageManager extends \XF\Image\Manager
+use XF\Image\Manager;
+
+abstract class ImageManager extends Manager
 {
-    public static function getMaxResizePixels(\XF\Image\Manager $imageManager): ?int
+    public static function getMaxResizePixels(Manager $imageManager): ?int
     {
         return $imageManager->maxResizePixels;
     }
