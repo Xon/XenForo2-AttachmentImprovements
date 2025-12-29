@@ -73,14 +73,14 @@ SV.$ = SV.$ || window.jQuery || null;
             if (!container) {
                 return;
             }
-            let editorBox = container.closest('.fr-box');
-            if (editorBox) {
-                editorBox.classList.remove('dragover');
-            }
             // remove rather than hide, as this prevents XF's html => bb-code parser getting confused. and also the editor itself
             let hoverZone = container.querySelector(':scope .dropzone-hover');
             if (hoverZone) {
                 hoverZone.remove();
+            }
+            let editorBox = container.closest('.fr-box');
+            if (editorBox) {
+                editorBox.classList.remove('dragover');
             }
         }
         return {
