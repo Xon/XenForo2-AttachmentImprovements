@@ -3,10 +3,16 @@ var SV = window.SV || {};
 // XF22 compat shim
 SV.$ = SV.$ || window.jQuery || null;
 
-(function ( document) {
+(function ( document, window) {
     "use strict";
     // XF2.2 compat
-    var $ = SV.$;
+    const $ = SV.$,
+        xf22 = typeof XF.on !== 'function',
+        on = xf22 ? function (element, namespacedEvent, handler) {
+            $(element).on(namespacedEvent, handler);
+        } : XF.on,
+        FE = ( $ ? $.FE : null ) || window.FroalaEditor || XF.FE;
+
     SV.attachmentHoverUi = function(editor) {
         let dropzoneCounter = 0;
         let template = '';
@@ -36,10 +42,10 @@ SV.$ = SV.$ || window.jQuery || null;
                     let hoverZone = container.querySelector(':scope .dropzone-hover');
                     if (!hoverZone) {
                         XF.setupHtmlInsert(template, function (html) {
-                            if (XF.FE) {
-                                editor.$wp.append(html);
-                            } else {
+                            if (xf22) {
                                 $(editor.$wp).append(html);
+                            } else {
+                                editor.$wp.append(html);
                             }
                         });
                     }
@@ -94,14 +100,7 @@ SV.$ = SV.$ || window.jQuery || null;
         }
     };
 
-    if (typeof XF.on !== "function") { // XF 2.2
-        $(document).on('editor:first-start', function() {
-            $.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
-        });
-    } else {
-        XF.on(document, 'editor:first-start', function() {
-            XF.FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
-        });
-    }
-
-})(document);
+    on(document, 'editor:first-start', function() {
+        FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
+    });
+})(document, window);
