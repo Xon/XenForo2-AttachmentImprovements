@@ -20,6 +20,7 @@ namespace XF;
  * @property bool|null $svAttachmentImprov_svgAdminOnly Only admins can upload SVGs as images
  * @property bool|null $svAttachmentsStripExif Strip JPEG EXIF
  * @property int|null $svPartialContentChunkSize Partial content maximum chunk size
+ * @property bool|null $svSkipPixelResizeLimitForSvgImages Svg images skip pixel resize limit when generating thumbnails
  */
 class Options
 {

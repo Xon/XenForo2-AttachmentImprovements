@@ -40,7 +40,8 @@ class Preparer extends XFCP_Preparer
     {
         $this->filename = $file->getFileName();
 
-        if ($file->isImage() && $file->getImageType() === IMAGETYPE_JPEG && (\XF::options()->svAttachmentsStripExif ?? true))
+        $options = \XF::options();
+        if ($file->isImage() && $file->getImageType() === IMAGETYPE_JPEG && ($options->svAttachmentsStripExif ?? true))
         {
             // force a re-read of EXIF data
             FileWrapperUnwrapper::resetExifCache($file);
@@ -71,8 +72,11 @@ class Preparer extends XFCP_Preparer
             FileWrapperUnwrapper::resetExifCache($file);
         }
 
-        $isSvg = $file->isImage() && $file->getImageType() === SvgImage::IMAGETYPE_SVG;
-        if ($isSvg)
+        $skipResizeLimit = ($options->svSkipPixelResizeLimitForSvgImages ?? false)
+                           && $file->isImage()
+                           && $file->getImageType() === SvgImage::IMAGETYPE_SVG
+        ;
+        if ($skipResizeLimit)
         {
             $imageManager = \XF::app()->imageManager();
             $oldMaxPixels = ImageManager::getMaxResizePixels($imageManager);
@@ -85,7 +89,7 @@ class Preparer extends XFCP_Preparer
         }
         finally
         {
-            if ($isSvg)
+            if ($skipResizeLimit)
             {
                 $imageManager->setMaxResizePixels($oldMaxPixels);
             }
