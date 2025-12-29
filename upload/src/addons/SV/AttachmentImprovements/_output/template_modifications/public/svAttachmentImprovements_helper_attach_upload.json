@@ -4,6 +4,6 @@
     "execution_order": 6629,
     "enabled": true,
     "action": "preg_replace",
-    "find": "#<xf:js prod=\"xf/attachment_manager-compiled.js\".*?>#",
+    "find": "#<xf:js prod=\"[^\"]*xf/attachment_manager-compiled.js[^>]+>#",
     "replace": "$0\n<xf:include template=\"svAttachmentImprovements_editor\" />"
 }
