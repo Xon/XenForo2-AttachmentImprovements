@@ -8,6 +8,6 @@
     "advanced": true,
     "default_value": "foreignobject,script",
     "relations": {
-        "SV_AttachImpro_Debug": 1230
+        "svAttachImpromentsDebug": 1230
     }
 }

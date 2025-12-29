@@ -8,6 +8,6 @@
     "advanced": false,
     "default_value": "0",
     "relations": {
-        "SV_AttachImpro_Debug": 9000
+        "svAttachImpromentsDebug": 9000
     }
 }

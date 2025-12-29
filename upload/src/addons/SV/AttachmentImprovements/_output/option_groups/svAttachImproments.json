@@ -1,6 +1,6 @@
 {
     "icon": "fa-download",
-    "display_order": 541,
+    "display_order": 621,
     "advanced": false,
-    "debug_only": true
+    "debug_only": false
 }

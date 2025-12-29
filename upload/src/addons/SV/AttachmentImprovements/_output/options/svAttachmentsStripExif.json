@@ -8,6 +8,7 @@
     "advanced": false,
     "default_value": "0",
     "relations": {
-        "attachments": 1430
+        "attachments": 1430,
+        "svAttachImproments": 1430
     }
 }
