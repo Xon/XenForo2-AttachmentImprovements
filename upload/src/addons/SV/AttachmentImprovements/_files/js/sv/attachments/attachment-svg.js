@@ -10,8 +10,7 @@ SV.$ = SV.$ || window.jQuery || null;
         xf22 = typeof XF.on !== 'function',
         on = xf22 ? function (element, namespacedEvent, handler) {
             $(element).on(namespacedEvent, handler);
-        } : XF.on,
-        FE = ( $ ? $.FE : null ) || window.FroalaEditor || XF.FE;
+        } : XF.on;
 
     if (!xf22) {
         const oldResize = XF.ImageTools.resize.bind(XF.ImageTools);
@@ -26,6 +25,8 @@ SV.$ = SV.$ || window.jQuery || null;
     }
 
     on(document, 'editor:first-start', function() {
+        // note; when editing posts, the editor.js is loaded *after* the attachment manager
+        const FE = ( $ ? $.FE : null ) || window.FroalaEditor || XF.FE;
         FE.IMAGE_ALLOW_REGEX = /\.(gif|jpe?g|tiff?|png|webp|bmp|svg)$/i;
         FE.DEFAULTS.imageAllowedTypes.push('svg+xml');
     });

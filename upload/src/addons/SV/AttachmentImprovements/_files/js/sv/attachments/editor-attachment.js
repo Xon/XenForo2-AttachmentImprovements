@@ -10,8 +10,7 @@ SV.$ = SV.$ || window.jQuery || null;
         xf22 = typeof XF.on !== 'function',
         on = xf22 ? function (element, namespacedEvent, handler) {
             $(element).on(namespacedEvent, handler);
-        } : XF.on,
-        FE = ( $ ? $.FE : null ) || window.FroalaEditor || XF.FE;
+        } : XF.on;
 
     SV.attachmentHoverUi = function(editor) {
         let dropzoneCounter = 0;
@@ -101,6 +100,8 @@ SV.$ = SV.$ || window.jQuery || null;
     };
 
     on(document, 'editor:first-start', function() {
+        // note; when editing posts, the editor.js is loaded *after* the attachment manager
+        const FE = ( $ ? $.FE : null ) || window.FroalaEditor || XF.FE;
         FE.PLUGINS.attachmentHoverUi = SV.attachmentHoverUi;
     });
 })(document, window);
