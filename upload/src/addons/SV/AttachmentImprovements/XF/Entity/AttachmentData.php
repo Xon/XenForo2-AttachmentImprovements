@@ -7,12 +7,14 @@ namespace SV\AttachmentImprovements\XF\Entity;
 
 use League\Flysystem\Filesystem as FlyFilesystem;
 use XF\LocalFsAdapter;
+use XF\Mvc\Entity\Structure;
 use function explode;
 use function sprintf, floor;
 use function strtolower;
 
 /**
  * @extends \XF\Entity\AttachmentData
+ * @property-read bool $isSvg
  */
 class AttachmentData extends XFCP_AttachmentData
 {
@@ -22,7 +24,7 @@ class AttachmentData extends XFCP_AttachmentData
      */
     public function getThumbnailUrl($canonical = false)
     {
-        if (!$this->isSvg())
+        if (!$this->isSvg)
         {
             return parent::getThumbnailUrl($canonical);
         }
@@ -79,7 +81,7 @@ class AttachmentData extends XFCP_AttachmentData
      */
     protected function _getAbstractedThumbnailPath($dataId, $fileKey)
     {
-        if (!$this->isSvg())
+        if (!$this->isSvg)
         {
             return parent::_getAbstractedThumbnailPath($dataId, $fileKey);
         }
@@ -115,11 +117,20 @@ class AttachmentData extends XFCP_AttachmentData
     {
         $typeGroup = parent::getTypeGrouping();
 
-        if ($this->isSvg() && $typeGroup === 'file')
+        if ($this->isSvg && $typeGroup === 'file')
         {
             return 'image';
         }
 
         return $typeGroup;
+    }
+
+    public static function getStructure(Structure $structure)
+    {
+        $structure = parent::getStructure($structure);
+
+        $structure->getters['isSvg'] = ['getter' => 'isSvg', 'cache' => true];
+
+        return $structure;
     }
 }

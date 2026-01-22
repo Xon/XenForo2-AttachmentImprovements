@@ -29,7 +29,7 @@ trait AttachmentViewTrait
         $attachment = $this->params['attachment'];
         /** @var AttachmentData $data */
         $data = $attachment->Data;
-        if ($data->isSvg())
+        if ($data->isSvg)
         {
             SvgResponse::updateInlineImageTypes($this->response, 'svg', 'image/svg+xml');
         }
