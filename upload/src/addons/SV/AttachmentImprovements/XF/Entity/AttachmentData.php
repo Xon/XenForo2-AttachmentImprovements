@@ -36,8 +36,28 @@ class AttachmentData extends XFCP_AttachmentData
         return parent::getThumbnailUrl($canonical);
     }
 
+    protected function getThumbnailUrlForSize(int $size, bool $canonical = false): ?string
+    {
+        if ($this->isSvg)
+        {
+            if ($size !== 1)
+            {
+                return null;
+            }
+
+            return $this->getSvgThumbnailUrl($canonical);
+        }
+
+        return parent::getThumbnailUrlForSize($size, $canonical);
+    }
+
     protected function getSvgThumbnailUrl(bool $canonical): ?string
     {
+        if (!$this->thumbnail_width)
+        {
+            return null;
+        }
+
         $dataId = $this->data_id;
 
         if (\XF::$versionId < 2030000)
@@ -47,6 +67,7 @@ class AttachmentData extends XFCP_AttachmentData
                 $dataId,
                 $this->file_hash
             );
+
             return $this->app()->applyExternalDataUrl($path, $canonical);
         }
 
@@ -85,6 +106,7 @@ class AttachmentData extends XFCP_AttachmentData
 
     /**
      * pre-XF2.3.8 support
+     *
      * @param string $dataId
      * @param string $fileKey
      * @return string
