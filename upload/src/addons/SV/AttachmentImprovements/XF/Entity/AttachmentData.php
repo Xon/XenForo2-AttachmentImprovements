@@ -8,9 +8,13 @@ namespace SV\AttachmentImprovements\XF\Entity;
 use League\Flysystem\Filesystem as FlyFilesystem;
 use XF\LocalFsAdapter;
 use XF\Mvc\Entity\Structure;
+use function base64_encode;
 use function explode;
-use function sprintf, floor;
+use function floor;
+use function hex2bin;
+use function sprintf;
 use function strtolower;
+use function substr;
 
 /**
  * @extends \XF\Entity\AttachmentData
@@ -24,11 +28,16 @@ class AttachmentData extends XFCP_AttachmentData
      */
     public function getThumbnailUrl($canonical = false)
     {
-        if (!$this->isSvg)
+        if ($this->isSvg)
         {
-            return parent::getThumbnailUrl($canonical);
+            return $this->getSvgThumbnailUrl($canonical);
         }
 
+        return parent::getThumbnailUrl($canonical);
+    }
+
+    protected function getSvgThumbnailUrl(bool $canonical): ?string
+    {
         $dataId = $this->data_id;
 
         if (\XF::$versionId < 2030000)
@@ -38,7 +47,7 @@ class AttachmentData extends XFCP_AttachmentData
                 $dataId,
                 $this->file_hash
             );
-            return $this->app()->applyExternalDataUrl($path);
+            return $this->app()->applyExternalDataUrl($path, $canonical);
         }
 
         $hash = base64_encode(hex2bin($this->file_hash));
@@ -53,7 +62,7 @@ class AttachmentData extends XFCP_AttachmentData
             $hash
         );
 
-        return $this->app()->applyExternalDataUrl($path);
+        return $this->app()->applyExternalDataUrl($path, $canonical);
     }
 
     public function isRangeRequestSupported(): bool
@@ -88,8 +97,8 @@ class AttachmentData extends XFCP_AttachmentData
         }
 
         /** @noinspection PhpDeprecationInspection */
-            return parent::_getAbstractedThumbnailPath($dataId, $fileKey);
-        }
+        return parent::_getAbstractedThumbnailPath($dataId, $fileKey);
+    }
 
     /**
      * XF2.3.8+ support
