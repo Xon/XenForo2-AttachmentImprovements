@@ -97,6 +97,27 @@ class Preparer extends XFCP_Preparer
     }
 
     /**
+     * XF2.3.8+ support
+     */
+    public function generateAttachmentThumbnails(string $sourceFile): array
+    {
+        $thumbnails = parent::generateAttachmentThumbnails($sourceFile);
+
+        if (count($thumbnails) === 0)
+        {
+            $thumbnail = $this->generateSvgThumbnail($sourceFile);
+            if ($thumbnail !== null)
+            {
+                $thumbnails[1] = $thumbnail;
+            }
+        }
+
+        return $thumbnails;
+    }
+
+    /**
+     * pre-XF2.3.8 support
+     *
      * @param string   $sourceFile
      * @param int|null $width
      * @param int|null $height
@@ -105,43 +126,57 @@ class Preparer extends XFCP_Preparer
      */
     public function generateAttachmentThumbnail($sourceFile, &$width = null, &$height = null)
     {
+        /** @noinspection PhpDeprecationInspection */
         $newTempFile = parent::generateAttachmentThumbnail($sourceFile, $width, $height);
+
         if ($newTempFile === null)
         {
-            $wrapper = SvgFileWrapper::new($sourceFile, $this->filename);
-
-            if (!$wrapper->isSvgImage())
+            $thumbnail = $this->generateSvgThumbnail($sourceFile);
+            if ($thumbnail !== null)
             {
-                return null;
+                $newTempFile = $thumbnail['path'];
+                $width = $thumbnail['width'];
+                $height = $thumbnail['height'];
             }
-
-            $image = $wrapper->getImageData();
-            if ($image === null)
-            {
-                return null;
-            }
-
-            $dimensions = $image->getDimensions();
-            if (empty($dimensions['thumbnail_width']) || empty($dimensions['thumbnail_height']))
-            {
-                return null;
-            }
-            $image->resize($dimensions['thumbnail_width'], $dimensions['thumbnail_height']);
-
-            $newTempFile = File::getTempFile();
-
-            if ($newTempFile && $image->save($newTempFile))
-            {
-                $width = $image->getWidth();
-                $height = $image->getHeight();
-
-                return $newTempFile;
-            }
-
-            return null;
         }
 
         return $newTempFile;
+    }
+
+    protected function generateSvgThumbnail(string $sourceFile): ?array
+    {
+        $wrapper = SvgFileWrapper::new($sourceFile, $this->filename);
+
+        if (!$wrapper->isSvgImage())
+        {
+            return null;
+        }
+
+        $image = $wrapper->getImageData();
+        if ($image === null)
+        {
+            return null;
+        }
+
+        $dimensions = $image->getDimensions();
+        if (empty($dimensions['thumbnail_width']) || empty($dimensions['thumbnail_height']))
+        {
+            return null;
+        }
+        $image->resize($dimensions['thumbnail_width'], $dimensions['thumbnail_height']);
+
+        $newTempFile = File::getTempFile();
+
+        if ($newTempFile && $image->save($newTempFile))
+        {
+            return [
+                'path'   => $newTempFile,
+                'width'  => $image->getWidth(),
+                'height' => $image->getHeight(),
+            ];
+        }
+
+        return null;
     }
 
     // XF2.3+

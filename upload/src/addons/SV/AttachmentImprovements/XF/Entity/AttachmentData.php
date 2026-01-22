@@ -75,18 +75,39 @@ class AttachmentData extends XFCP_AttachmentData
     }
 
     /**
+     * pre-XF2.3.8 support
      * @param string $dataId
      * @param string $fileKey
      * @return string
      */
     protected function _getAbstractedThumbnailPath($dataId, $fileKey)
     {
-        if (!$this->isSvg)
+        if ($this->isSvg)
         {
+            return $this->getSvgThumbnailPath($dataId, $fileKey);
+        }
+
+        /** @noinspection PhpDeprecationInspection */
             return parent::_getAbstractedThumbnailPath($dataId, $fileKey);
         }
 
-        return sprintf('data://attachments/%d/%d-%s.svg',
+    /**
+     * XF2.3.8+ support
+     */
+    protected function _getAbstractedThumbnailPathForSize(int $dataId, int $size, string $fileKey): string
+    {
+        if ($this->isSvg)
+        {
+            return $this->getSvgThumbnailPath($dataId, $fileKey);
+        }
+
+        return parent::_getAbstractedThumbnailPathForSize($dataId, $size, $fileKey);
+    }
+
+    protected function getSvgThumbnailPath(int $dataId, string $fileKey)
+    {
+        return sprintf(
+            'data://attachments/%d/%d-%s.svg',
             floor($dataId / 1000),
             $dataId,
             $fileKey
